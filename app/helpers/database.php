@@ -8,7 +8,7 @@ class Database {
     private static $instance;
     private $MYSQLI;
 
-    private function __construct(array $DBS) {
+    private function __construct() {
         $this->MYSQLI = @new mysqli(self::server, self::user, self::password, self::dbName);
 
         if( mysqli_connect_errno() ) {
@@ -18,12 +18,12 @@ class Database {
         $this->MYSQLI->set_charset("utf8");
     }
 
-    public static function init(array $DBS) {
+    public static function init() {
         if( self::$instance instanceof self ) {
             return false;
         }
 
-        self::$instance = new self($DBS);
+        self::$instance = new self();
     }
 
     public static function getMObj() {

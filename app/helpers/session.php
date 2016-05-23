@@ -30,7 +30,7 @@
 
 class Session {
     const USER = "user";
-    const SESSION_NAME = "logedin_session";
+    const SESSION_NAME = "sessionToken";
 
     static function createSession() {
         session_name(self::SESSION_NAME);
@@ -40,7 +40,6 @@ class Session {
         }
     }
 
-    
     static function loginUser($user) {
         self::createSession();
         $_SESSION[self::USER] = $user;
@@ -54,7 +53,9 @@ class Session {
         if (isset($_SESSION[self::USER])) {
             $user = $_SESSION[self::USER];
         } else {
-            return null;
+            $cookie = UserHelper::getRememberCookie();
+            $user = User::findByRememberToken($cookie);
+            Session::loginUser($user);
         }
         return $user;
     }

@@ -95,6 +95,15 @@ class User {
         $user->build($result);
         return $user;
     }
+    
+    static public function findByRememberToken($cookie){
+        $sql = "SELECT * FROM users WHERE remember_token='$cookie'";
+        $user = new User();
+        $result = mysqli_fetch_array(Database::query($sql));
+        $result = $result->fetch_assoc();
+        $user->build($result);
+        return $user;
+    }
 
     /**
      * Retruns an array of all users
