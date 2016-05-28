@@ -14,6 +14,7 @@ class User {
     private $email;
     private $passwordDigest;
     private $resetToken;
+    private $rememberToken;
     private $role;
     private $image;
     private $city;
@@ -25,48 +26,48 @@ class User {
     private $rememberedAt;
     private $createdAt;
     private $updatedAt;
-
-    /**
-     * User constructor.
-     * @param $id
-     * @param $username
-     * @param $name
-     * @param $surname
-     * @param $email
-     * @param $passwordDigest
-     * @param $resetToken
-     * @param $role
-     * @param $image
-     * @param $city
-     * @param $address
-     * @param $theme
-     * @param $active
-     * @param $deleted
-     * @param $loginAttepmts
-     * @param $rememberedAt
-     * @param $createdAt
-     * @param $updatedAt
-     */
-    public function __construct($id, $username, $name, $surname, $email, $passwordDigest, $resetToken, $role, $image, $city, $address, $theme, $active, $deleted, $loginAttepmts, $rememberedAt, $createdAt, $updatedAt){
-        $this->id = $id;
-        $this->username = $username;
-        $this->name = $name;
-        $this->surname = $surname;
-        $this->email = $email;
-        $this->passwordDigest = $passwordDigest;
-        $this->resetToken = $resetToken;
-        $this->role = $role;
-        $this->image = $image;
-        $this->city = $city;
-        $this->address = $address;
-        $this->theme = $theme;
-        $this->active = $active;
-        $this->deleted = $deleted;
-        $this->loginAttepmts = $loginAttepmts;
-        $this->rememberedAt = $rememberedAt;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
-    }
+//
+//    /**
+//     * User constructor.
+//     * @param $id
+//     * @param $username
+//     * @param $name
+//     * @param $surname
+//     * @param $email
+//     * @param $passwordDigest
+//     * @param $resetToken
+//     * @param $role
+//     * @param $image
+//     * @param $city
+//     * @param $address
+//     * @param $theme
+//     * @param $active
+//     * @param $deleted
+//     * @param $loginAttepmts
+//     * @param $rememberedAt
+//     * @param $createdAt
+//     * @param $updatedAt
+//     */
+//    public function __construct($id, $username, $name, $surname, $email, $passwordDigest, $resetToken, $role, $image, $city, $address, $theme, $active, $deleted, $loginAttepmts, $rememberedAt, $createdAt, $updatedAt){
+//        $this->id = $id;
+//        $this->username = $username;
+//        $this->name = $name;
+//        $this->surname = $surname;
+//        $this->email = $email;
+//        $this->passwordDigest = $passwordDigest;
+//        $this->resetToken = $resetToken;
+//        $this->role = $role;
+//        $this->image = $image;
+//        $this->city = $city;
+//        $this->address = $address;
+//        $this->theme = $theme;
+//        $this->active = $active;
+//        $this->deleted = $deleted;
+//        $this->loginAttepmts = $loginAttepmts;
+//        $this->rememberedAt = $rememberedAt;
+//        $this->createdAt = $createdAt;
+//        $this->updatedAt = $updatedAt;
+//    }
 
     public function save(){
         $sql = "";
@@ -107,14 +108,16 @@ class User {
 
     /**
      * Retruns an array of all users
-     * @return array of Users
+     * @return User array
      */
     static public function all(){
         $sql = "SELECT * FROM users";
         $result = Database::query($sql);
         $users = array();
         while ($row = $result->fetch_assoc()) {
-            array_push($users, User::build($row));
+            $user = new User();
+            $user->build($row);
+            array_push($users, $user);
         }
         return $users;
     }
@@ -131,17 +134,30 @@ class User {
         $this->email = $result['email'];
         $this->passwordDigest = $result['password_digest'];
         $this->resetToken = $result['reset_token'];
-        $this->role = $result['role'];
-        $this->image = $result['image'];
-        $this->city = $result['city'];
+        $this->rememberToken = $result['remember_token'];
+        $this->role = $result['roles_id'];
+        $this->image = $result['profile_image'];
+        $this->city = $result['cities_id'];
         $this->address = $result['address'];
         $this->theme = $result['theme'];
         $this->active = $result['active'];
         $this->deleted = $result['deleted'];
-        $this->loginAttepmts = $result['login_attepmts'];
+        $this->loginAttepmts = $result['login_attempts'];
         $this->rememberedAt = $result['remembered_at'];
         $this->createdAt = $result['created_at'];
         $this->updatedAt = $result['updated_at'];
+    }
+
+    public function toArray(){
+        $array = array();
+        $array["username"] = $this->username;
+        $array["name"] = $this->name;
+        $array["surname"] = $this->surname;
+        $array["email"] = $this->email;
+        $array["image"] = $this->image;
+        $array["city"] = $this->city;
+        $array["address"] = $this->address;
+        return $array;
     }
 
 }

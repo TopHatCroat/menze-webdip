@@ -3,10 +3,10 @@ define('ADMIN', "3");
 define('MOD', "2");
 define('USER', "1");
 
-include_once('database.php');
-include_once('user.php');
-include_once('session.php');
-include_once('auth.php');
+include_once('helpers/database.php');
+include_once('models/user.php');
+include_once('helpers/session.php');
+include_once('helpers/auth.php');
 
 error_reporting(E_ALL);
 function handleError($errno, $errstr,$error_file,$error_line) {
