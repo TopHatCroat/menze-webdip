@@ -71,7 +71,7 @@ class User {
 
     public function save(){
         $sql = "";
-        if($this->id == 0){
+        if($this->id == null){
             $this->createdAt = date('Y-m-d H:i:s');
             $sql = "INSERT INTO users(username, name, surname, email, password_digest, reset_token, address, cities_id, profile_image, theme, roles_id, active, deleted, login_attemplts, remembered_at, created_at, updated_at) " .
                 "VALUES ('$this->username', '$this->name', '$this->surname', '$this->email', '$this->passwordDigest', '$this->resetToken', '$this->address', '$this->city', '$this->image', '$this->theme', '$this->role', '$this->active', '$this->deleted', '$this->loginAttepmts', '$this->rememberedAt', '$this->createdAt', '$this->updatedAt');";

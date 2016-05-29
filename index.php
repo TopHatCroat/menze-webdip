@@ -14,7 +14,7 @@
             <ul>
                 <li><a href="#" title="Početna">Home</a></li>
                 <li><a href="#" title="Menze">About</a></li>
-                <li><a href="#" title="Korisnici">Korisnici</a></li>
+                <li><a href="users.php" title="Korisnici">Korisnici</a></li>
                 <li><a href="#" title="Slike">Work</a></li>
                 <li><a href="#" title="O autoru">Contact</a></li>
             </ul>

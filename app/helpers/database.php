@@ -37,6 +37,10 @@ class Database {
     public static function escape($string) {
         return self::$instance->MYSQLI->real_escape_string($string);
     }
+    
+    public static function count($q){
+        var_dump(self::$instance->MYSQLI->query($q));
+    }
 
 }
 ?>
