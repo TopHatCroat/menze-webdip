@@ -39,7 +39,8 @@ class Database {
     }
     
     public static function count($q){
-        var_dump(self::$instance->MYSQLI->query($q));
+        $result = mysqli_fetch_array(self::$instance->MYSQLI->query($q));
+        return $result['COUNT(*)'];
     }
 
 }

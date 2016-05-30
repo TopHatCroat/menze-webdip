@@ -12,9 +12,10 @@ class UserHelper{
     }
 
     public static function checkIfExists($property, $value){
-        echo $property;
         if($property == 'username'){
-            Database::count("SELECT COUNT(*) FROM users WHERE username='$value'");
+            return Database::count("SELECT COUNT(*) FROM users WHERE username='$value'");
+        } else if($property == 'email') {
+            return Database::count("SELECT COUNT(*) FROM users WHERE email='$value'");
         } else new Exception("Unsuppored property");
     }
 }
