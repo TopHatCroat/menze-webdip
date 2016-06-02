@@ -1,5 +1,6 @@
 <?php
 include_once('../app/app.php');
+var_dump($_POST);
 
 $errors = array();
 
@@ -61,10 +62,10 @@ if(count($errors) == 0){
     $newUser->setEmail($_POST['email']);
     $newUser->setPasswordDigest(crypt($_POST['email']));
 
-    if(isset($_POST['name'])) $newUser->setName(isset($_POST['name']));
-    if(isset($_POST['surname'])) $newUser->setSurname(isset($_POST['surname']));
-    //if(isset($_POST['city'])) $newUser->setCity(isset($_POST['city']));
-    if(isset($_POST['address'])) $newUser->setAddress(isset($_POST['address']));
+    if(isset($_POST['name'])) $newUser->setName($_POST['name']);
+    if(isset($_POST['surname'])) $newUser->setSurname($_POST['surname']);
+    if(isset($_POST['city'])) $newUser->setCity($_POST['city']);
+    if(isset($_POST['address'])) $newUser->setAddress($_POST['address']);
 
     $newUser->setRole('r1111111111');
     $newUser->setActivationToken($activationToken);
@@ -81,6 +82,7 @@ if(count($errors) == 0){
 //
 //    mail($to, $subject, $message, $headers);
 
+    var_dump("user", $newUser);
     $newUser->save();
 }
 

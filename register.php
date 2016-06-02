@@ -5,7 +5,8 @@
     <title>Registracija</title>
     <link href="public/css/style.css" type="text/css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<!--    <script type="text/javascript" src="public/js/users.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="public/js/main.js"></script>
 <!--    <script type="text/javascript" src="public/js/helpers.js"></script>-->
 
 </head>
@@ -52,7 +53,7 @@
                 </tr>
                 <tr>
                     <td><label for="city">Grad:</label></td>
-                    <td><input type="text" id="city" name="city" placeholder="Grad"></td>
+                    <td><select id="city" name="city" placeholder="Grad"></select></td>
                 </tr>
                 <tr>
                     <td><label for="address">Email:</label></td>
