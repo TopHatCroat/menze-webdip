@@ -47,6 +47,18 @@ class UserHelper{
         return true;
     }
 
+    public static function isAdmin($user){
+        if(!is_a($user, "User")){
+            var_dump($user);
+            return false;
+        }
+        if($user->getRole() != "3"){
+            return false;
+        } else{
+            return true;
+        }
+    }
+
 }
 
 ?>

@@ -11,17 +11,20 @@
 <body>
 <div id="wrapper">
     <header>
-        <h1>Projekt Menze</h1>
-        <div id="userInfo">
+        <div id="banner">
+            <h1 id="logo">Projekt Menze</h1>
+            <div id="userInfo">
+            </div>
         </div>
         <nav>
-            <ul>
+            <ul id="#navigationLinks">
                 <li id="indexLink"><a href="index.php" title="Početna">Home</a></li>
                 <li id="restaurantsLink"><a href="restaurants.php" title="Menze">About</a></li>
                 <li id="usersLink"><a href="users.php" title="Korisnici">Korisnici</a></li>
                 <li id="registerLink"><a href="register.php" title="Registriraj se">Registriraj se</a></li>
                 <li id="picturesLink"><a href="pictures.php" title="Slike">Work</a></li>
                 <li id="contactLink"><a href="contact.php" title="O autoru">Contact</a></li>
+                
             </ul>
         </nav>
     </header>

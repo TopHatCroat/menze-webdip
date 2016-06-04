@@ -3,10 +3,16 @@ $(document).ready(function(e) {
 
 })
 function showMessage(type, messages){
+    $("#message").remove();
+    var str = '';
+    $.each(messages, function (s, val) {
+        str += val + "\n";
+    })
+
     $('<div/>', {
         id: 'message',
         class: type,
-        text: messages,
+        text: str,
     }).prependTo('#content');
     $("#message").animate({
         opacity: 1,
@@ -21,7 +27,7 @@ function setup() {
         success: function(data)
         {
             if(data == ""){
-                $("#userInfo").html("<a href='login.php'>Prijavi se</a>");
+                $("#userInfo").html("<p><a href='login.php'>Prijavi se</a></p>");
             } else {
                 data = JSON.parse(data);
                 $("#userInfo").html("<p>Dobrodošao " + data["username"] + "| <a id='logoutLink' href='#'>Odjavi se</a></p>");
@@ -32,7 +38,7 @@ function setup() {
                         url: "api/login.php",
                         data: {logout: 1},
                         success: function (data) {
-
+                            location.reload();
                         }
                     });
                 })
@@ -40,6 +46,18 @@ function setup() {
 
         }
     });
+
+}
+
+function getParams(){
+    var qd = {};
+    location.search.substr(1).split("&").forEach(function(item) {
+        var s = item.split("="),
+            k = s[0],
+            v = s[1] && decodeURIComponent(s[1]);
+        (k in qd) ? qd[k].push(v) : qd[k] = [v]
+    })
+    return qd;
 }
 
 function clearContent(){

@@ -115,6 +115,15 @@ class User {
         $user->build($result);
         return $user;
     }
+    
+    static public function findByActivationToken($activation){
+        $sql = "SELECT * FROM users WHERE activation_token='$activation'";
+        $user = new User();
+        $result = mysqli_fetch_array(Database::query($sql));
+        if($result['id'] == null) return null;
+        $user->build($result);
+        return $user;        
+    }
 
     static public function findByCredentials($username, $password){
         $password = hash("sha256", $password);

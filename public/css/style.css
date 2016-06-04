@@ -74,8 +74,14 @@ header {
     margin-bottom: 40px;
 }
 
-header div{
-    max-width: 1024px;
+header #logo{
+    max-width: 900px;
+    width: 100%;
+    margin: 0px auto;
+}
+
+header #userInfo{
+    max-width: 900px;
     width: 100%;
     margin: 0px auto;
 }
@@ -85,6 +91,7 @@ header div p {
     text-align: right;
     font-size: 30px;
     margin: 10px;
+    font-size: 12px;
 }
 
 header a{
