@@ -12,6 +12,8 @@
 <div id="wrapper">
     <header>
         <h1>Projekt Menze</h1>
+        <div id="userInfo">
+        </div>
         <nav>
             <ul>
                 <li id="indexLink"><a href="index.php" title="Početna">Home</a></li>

@@ -34,6 +34,24 @@ a {
     clear: both;
 }
 
+.info, .success, .warning, .error, .validation {
+    border: 1px solid;
+    margin: 0 10% 10px 10%;
+    padding: 10px;
+    opacity: 1;
+    display: block;
+}
+
+.success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+
+.error {
+    color: #D8000C;
+    background-color: #FFBABA;
+}
+
 
 /*a:visited {*/
     /*font-weight: normal;*/

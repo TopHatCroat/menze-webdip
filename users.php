@@ -1,33 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <title>Korisnici</title>
-    <link href="public/css/style.css" type="text/css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script type="text/javascript" src="public/js/users.js"></script>
-    <script type="text/javascript" src="public/js/helpers.js"></script>
+<? include('public/template/header.php') ?>
+<script type="text/javascript" src="public/js/users.js"></script>
+<script type="text/javascript" src="public/js/helpers.js"></script>
 
-</head>
-<body>
-<div id="wrapper">
-    <header>
-        <h1>Projekt Menze</h1>
-        <nav>
-            <ul>
-                <li><a href="index.php" title="Početna">Home</a></li>
-                <li><a href="#" title="Menze">About</a></li>
-                <li><a href="users.php" title="Korisnici">Korisnici</a></li>
-                <li><a href="register.php" title="Korisnici">Registriraj se</a></li>
-                <li><a href="#" title="Slike">Work</a></li>
-                <li><a href="#" title="O autoru">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-    <section id="content">
-        
-    </section>
+<div id="content">
 
 </div>
-</body>
-</html>
+
+<? include('public/template/footer.php') ?>

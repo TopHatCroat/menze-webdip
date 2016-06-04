@@ -12,6 +12,7 @@ class Database {
         $this->MYSQLI = @new mysqli(self::server, self::user, self::password, self::dbName);
 
         if( mysqli_connect_errno() ) {
+            var_dump($this->MYSQLI);
             throw new Exception("Error connecting to database.");
         }
 

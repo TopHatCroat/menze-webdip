@@ -40,36 +40,63 @@ class Session {
         }
     }
 
+
+    /**
+     * Logs in user and sets it's session key
+     * @param $user
+     * @return bool True if successful, false otherwise
+     */
     static function loginUser($user) {
+        if(!is_a($user, "User")){
+            var_dump($user);
+            return false;
+        }
+        
         self::createSession();
-        $_SESSION[self::USER] = $user;
+        $sessionToken = md5($user->getUsername() . time());
+        
+        $_SESSION[self::USER] = $sessionToken;
+        $user->setSessionToken($sessionToken);
+        $user->save();
+        return true;
     }
 
     /**
-     * @return User currentrly logged in user
+     * @return User currentrly logged in user or null if not logged in
      */
     static function getLoggedInUser(){
         self::createSession();
         if (isset($_SESSION[self::USER])) {
-            $user = $_SESSION[self::USER];
-        } else {
-            $cookie = UserHelper::getRememberCookie();
-            $user = User::findByRememberToken($cookie);
-            Session::loginUser($user);
+            $sessionToken = $_SESSION[self::USER];
+            $user = User::findBySessionToken($sessionToken);
+            if ($user != null) {
+                return $user;
+            }
         }
-        return $user;
+        
+        $cookie = UserHelper::getRememberCookie();
+        if($cookie != null){
+            $user = User::findByRememberToken($cookie);
+            if($user != null){
+                return $user;
+            }
+        }
+        return null;
     }
 
     /**
      * Logs User out ie. deletes session
      */
-    static function logOutUser() {
-        session_name(self::SESSION_NAME);
-
+    static function logOutUser($user) {
+        self::createSession();
         if (session_id() != "") {
             session_unset();
             session_destroy();
+            setcookie(self::SESSION_NAME, null, -1);
+            setcookie(session_id(), null, -1);
         }
+        $user->setSessionToken("-1");
+        $user->save();
     }
 
 }

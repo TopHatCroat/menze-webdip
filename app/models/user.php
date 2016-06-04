@@ -78,10 +78,9 @@ class User {
                 "VALUES ('$this->username', '$this->name', '$this->surname', '$this->email', '$this->passwordDigest', '$this->activationToken', '$this->sessionToken', '$this->rememberToken', '$this->address', '$this->city', '$this->image', '$this->theme', '$this->role', '$this->active', '$this->deleted', '$this->loginAttepmts', '$this->rememberedAt', '$this->createdAt', '$this->updatedAt');";
         } else{
             $this->updatedAt = date('Y-m-d H:i:s');
-            $sql = "UPDATE users SET username='$this->username',name='$this->name',surname='$this->surname',email='$this->email',password_digest='$this->passwordDigest',activation_token='$this->activationToken', session_token='$this->sessionTOken', remember_token='$this->rememberToken',address='$this->address',cities_id='$this->city',profile_image='$this->image',theme='$this->theme',roles_id='$this->role',active='$this->active',deleted='$this->deleted',login_attempts='$this->loginAttepmts',remembered_at='$this->rememberedAt',created_at='$this->createdAt',updated_at='$this->updatedAt' WHERE id='$this->id'";
+            $sql = "UPDATE users SET username='$this->username',name='$this->name',surname='$this->surname',email='$this->email',password_digest='$this->passwordDigest',activation_token='$this->activationToken', session_token='$this->sessionToken', remember_token='$this->rememberToken',address='$this->address',cities_id='$this->city',profile_image='$this->image',theme='$this->theme',roles_id='$this->role',active='$this->active',deleted='$this->deleted',login_attempts='$this->loginAttepmts',remembered_at='$this->rememberedAt',created_at='$this->createdAt',updated_at='$this->updatedAt' WHERE id='$this->id'";
         }
         $result = Database::query($sql);
-        var_dump($result, $sql);
         return $result;
     }
 
@@ -91,9 +90,10 @@ class User {
      */
     static public function findById($id){
         $sql = "SELECT * FROM users WHERE id='$id'";
+        echo $sql;
         $user = new User();
         $result = mysqli_fetch_array(Database::query($sql));
-        $result = $result->fetch_assoc();
+        if($result['id'] == null) return null;
         $user->build($result);
         return $user;
     }
@@ -102,7 +102,26 @@ class User {
         $sql = "SELECT * FROM users WHERE remember_token='$cookie'";
         $user = new User();
         $result = mysqli_fetch_array(Database::query($sql));
-        $result = $result->fetch_assoc();
+        if($result['id'] == null) return null;
+        $user->build($result);
+        return $user;
+    }
+
+    static public function findBySessionToken($session){
+        $sql = "SELECT * FROM users WHERE session_token='$session'";
+        $user = new User();
+        $result = mysqli_fetch_array(Database::query($sql));
+        if($result['id'] == null) return null;
+        $user->build($result);
+        return $user;
+    }
+
+    static public function findByCredentials($username, $password){
+        $password = hash("sha256", $password);
+        $sql = "SELECT * FROM users WHERE username='$username' and password_digest='$password'";
+        $user = new User();
+        $result = mysqli_fetch_array(Database::query($sql));
+        if($result['id'] == null) return null;
         $user->build($result);
         return $user;
     }
@@ -293,6 +312,22 @@ class User {
     /**
      * @return mixed
      */
+    public function getSessionToken()
+    {
+        return $this->sessionToken;
+    }
+
+    /**
+     * @param mixed $sessionToken
+     */
+    public function setSessionToken($sessionToken)
+    {
+        $this->sessionToken = $sessionToken;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getRole()
     {
         return $this->role;
@@ -465,7 +500,5 @@ class User {
     {
         $this->updatedAt = $updatedAt;
     }
-
-
 
 }

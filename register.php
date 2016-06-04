@@ -2,7 +2,7 @@
     <script type="text/javascript" src="public/js/register.js"></script>
 
 <div id="content">
-    <form class="" id="register" method="post" name="register" action="api/register.php" enctype="multipart/form-data">
+    <form id="register" method="post" name="register" action="api/register.php" enctype="multipart/form-data">
         <table class="fill-horizontal">
             <tr>
                 <td><label for="username">Korisničko ime: </label></td>

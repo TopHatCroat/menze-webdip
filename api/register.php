@@ -1,7 +1,5 @@
 <?php
 include_once('../app/app.php');
-var_dump($_POST);
-
 $errors = array();
 
 if(isset($_POST['username']) && !empty($_POST['username'])){
@@ -41,50 +39,53 @@ if(isset($_FILES['image']) && count(getimagesize($_FILES['image']['tmp_name'])) 
     if($_FILES['image']['size'] > 50 * 1024){
         $errors['image'] = "Slika mora biti manja od 50 KB";
     }
-} else $errors['image'] = "Slika mora biti slika, jer inace nije slika";
+}
 
 
 if(count($errors) == 0){
     $activationToken = md5($_POST['username'] . $_POST['email'] . time());
     $newUser = new User();
 
-    $imageName = explode(".", $_FILES['image']['name']);
-    $extension = end($imageName);
-    $imagePath = "../public/img/profile/"  . $_POST['username'] . "." . $extension;
-    
-    var_dump($imagePath);
+    if(isset($_FILES['image'])){
+        $imageName = explode(".", $_FILES['image']['name']);
+        $extension = end($imageName);
+        $imagePath = "../public/img/profile/"  . $_POST['username'] . "." . $extension;
 
-    if (move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) {
-        $newUser->setImage($imagePath . $extension);
-    } else $errors['image2'] = "Neuspjelo spremanje slike";
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) {
+            $newUser->setImage($imagePath);
+        } else $errors['image2'] = "Neuspjelo spremanje slike";
+    }
+
 
     $newUser->setUsername($_POST['username']);
     $newUser->setEmail($_POST['email']);
-    $newUser->setPasswordDigest(crypt($_POST['email']));
+    $newUser->setPasswordDigest(hash("sha256", $_POST['pass']));
 
     if(isset($_POST['name'])) $newUser->setName($_POST['name']);
     if(isset($_POST['surname'])) $newUser->setSurname($_POST['surname']);
     if(isset($_POST['city'])) $newUser->setCity($_POST['city']);
     if(isset($_POST['address'])) $newUser->setAddress($_POST['address']);
 
-    $newUser->setRole('r1111111111');
+    $newUser->setRole('1');
     $newUser->setActivationToken($activationToken);
     $newUser->setActive(0);
     $newUser->setDeleted(0);
 
-//    $to = $_POST['email'];
-//    $subject = "Aktivacija korisničkog računa";
-//    $message = "Za aktivaciju računa na zadaći 04 kliknite <a href='https://barka.foi.hr/WebDiP/2015_projekti/WebDiP2015x051/api/user.php?activation=" . $activationToken . "'>OVDJE</a>";
-//
-//    $headers = "MIME-Version: 1.0" . "\r\n"
-//        . "Content-type:text/html;charset=UTF-8" . "\r\n"
-//        . 'From: <antmartin2@foi.com>' . "\r\n";
-//
-//    mail($to, $subject, $message, $headers);
+    if(count($errors) == 0){
+        $to = $_POST['email'];
+        $subject = "Aktivacija korisničkog računa";
+        $message = "Za aktivaciju računa na Projektu menze kliknite <a href='https://barka.foi.hr/WebDiP/2015_projekti/WebDiP2015x051/login.php?activation=" . $activationToken . "'>OVDJE</a>";
 
-    var_dump("user", $newUser);
-    $newUser->save();
+        $headers = "MIME-Version: 1.0" . "\r\n"
+            . "Content-type:text/html;charset=UTF-8" . "\r\n"
+            . 'From: <antmartin2@foi.com>' . "\r\n";
+
+        mail($to, $subject, $message, $headers);
+
+        $newUser->save();
+        $msg["success"] = "Uspješno registriranje";
+        echo json_encode($msg);
+    }
 }
-
-var_dump($errors);
+echo json_encode($errors)
 ?>
