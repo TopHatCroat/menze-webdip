@@ -21,7 +21,7 @@ class BlackList
         if($this->id == null){
             $this->createdAt = date('Y-m-d H:i:s');
             $sql = "INSERT INTO blacklist(description, release_at, restaurant_id, users_id, created_at, updated_at) " .
-                "VALUES ('$this->description', '$this->releaseAt', '$this->restaurant', '$this->user, '$this->createdAt', '$this->updatedAt');";
+                "VALUES ('$this->description', '$this->releaseAt', '$this->restaurant', '$this->user', '$this->createdAt', '$this->updatedAt');";
         } else{
             $this->updatedAt = date('Y-m-d H:i:s');
             $sql = "UPDATE blacklist SET description='$this->description', release_at='$this->releaseAt', restaurants_id='$this->restaurant', users_id='$this->r', created_at='$this->createdAt',updated_at='$this->updatedAt' WHERE id='$this->id'";

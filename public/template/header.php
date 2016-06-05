@@ -20,7 +20,7 @@
         <nav>
             <ul id="#navigationLinks">
                 <li id="indexLink"><a href="index.php" title="Početna">Home</a></li>
-                <li id="restaurantsLink"><a href="restaurants.php" title="Menze">About</a></li>
+                <li id="restaurantsLink"><a href="restaurant.php" title="Menze">Menze</a></li>
                 <li id="usersLink"><a href="users.php" title="Korisnici">Korisnici</a></li>
                 <li id="registerLink"><a href="register.php" title="Registriraj se">Registriraj se</a></li>
                 <li id="picturesLink"><a href="pictures.php" title="Slike">Slike</a></li>

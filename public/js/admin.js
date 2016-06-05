@@ -42,13 +42,44 @@ $(document).ready(function (e) {
                 data = JSON.parse(data);
                 if(data["admin"]["role"] == '3'){
                     showAdminPanel();
-                } else{
+                } else {
                     $("#content").html("<p>Neautorizirani pristup</p>");
                 }
             }
 
         }
     });
+
+    $.ajax({
+        url: "api/city.php",
+        dataType: "json",
+        success: function (data) {
+            var selectOptions = '';
+            $.each(data, function(key, value){
+                selectOptions += '<option value="' + key + '">' + value + '</option>'
+            });
+            $("#city").html(selectOptions);
+        }
+    })
+
+    // $("#newRestaurant").submit(function(e) {
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "api/restaurant.php",
+    //         data: $("#newRestaurant").serialize(),
+    //         success: function(data)
+    //         {
+    //             data = JSON.parse(data);
+    //             if(data["success"] == undefined ){
+    //                 showMessage("error", data);
+    //             } else {
+    //                 showMessage("success", data);
+    //             }
+    //         }
+    //     });
+    //
+    //     e.preventDefault();
+    // });
 
     e.preventDefault();
 

@@ -13,6 +13,7 @@ class Restaurant
     private $email;
     private $address;
     private $city;
+    private $image;
     private $createdAt;
     private $updatedAt;
 
@@ -20,13 +21,14 @@ class Restaurant
         $sql = "";
         if($this->id == null){
             $this->createdAt = date('Y-m-d H:i:s');
-            $sql = "INSERT INTO restaurants(name, email, address, cities_id, created_at, updated_at) " .
-                "VALUES ('$this->name', '$this->email', '$this->address', '$this->city, '$this->createdAt', '$this->updatedAt');";
+            $sql = "INSERT INTO restaurants(name, email, address, cities_id, image, created_at, updated_at) " .
+                "VALUES ('$this->name', '$this->email', '$this->address', '$this->city', '$this->image', '$this->createdAt', '$this->updatedAt')";
         } else{
             $this->updatedAt = date('Y-m-d H:i:s');
-            $sql = "UPDATE resstaurants SET name='$this->name', email='$this->email', address='$this->address', cities_id='$this->city', created_at='$this->createdAt',updated_at='$this->updatedAt' WHERE id='$this->id'";
+            $sql = "UPDATE resstaurants SET name='$this->name', email='$this->email', address='$this->address', cities_id='$this->city', image='$this->image', created_at='$this->createdAt',updated_at='$this->updatedAt' WHERE id='$this->id'";
         }
         $result = Database::query($sql);
+
         return $result;
     }
     
@@ -60,6 +62,7 @@ class Restaurant
         $this->name = $result['name'];
         $this->email = $result['email'];
         $this->city = $result['cities_id'];
+        $this->image = $result['image'];
         $this->address = $result['address'];
         $this->createdAt = $result['created_at'];
         $this->updatedAt = $result['updated_at'];
@@ -71,9 +74,140 @@ class Restaurant
         $array["email"] = $this->email;
         $array["city"] = $this->city;
         $array["address"] = $this->address;
+        $array["picture"] = $this->image;
         $array["updatedAt"] = $this->updatedAt;
         $array["createdAt"] = $this->createdAt;
         return $array;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param mixed $address
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param mixed $city
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param mixed $updatedAt
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+
     
 }
