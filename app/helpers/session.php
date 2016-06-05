@@ -33,11 +33,7 @@ class Session {
     const SESSION_NAME = "sessionToken";
 
     static function createSession() {
-        session_name(self::SESSION_NAME);
-
-        if (session_id() == "") {
-            session_start();
-        }
+        session_start();
     }
 
 
@@ -51,12 +47,9 @@ class Session {
             var_dump($user);
             return false;
         }
-        
         self::createSession();
-        $sessionToken = md5($user->getUsername() . time());
-        
-        $_SESSION[self::USER] = $sessionToken;
-        $user->setSessionToken($sessionToken);
+        $_SESSION[self::SESSION_NAME] = session_id();
+        $user->setSessionToken($_SESSION[self::SESSION_NAME]);
         $user->save();
         return true;
     }
@@ -66,9 +59,10 @@ class Session {
      */
     static function getLoggedInUser(){
         self::createSession();
-        if (isset($_SESSION[self::USER])) {
-            $sessionToken = $_SESSION[self::USER];
+        if (isset($_SESSION[self::SESSION_NAME])) {
+            $sessionToken = $_SESSION[self::SESSION_NAME];
             $user = User::findBySessionToken($sessionToken);
+
             if ($user != null) {
                 return $user;
             }
@@ -92,8 +86,13 @@ class Session {
         if (session_id() != "") {
             session_unset();
             session_destroy();
+            unset($_COOKIE["PHPSESSID"]);
+            setcookie("PHPSESSID", null, -1);
+            unset($_COOKIE[self::SESSION_NAME]);
             setcookie(self::SESSION_NAME, null, -1);
+            unset($_COOKIE[session_id()]);
             setcookie(session_id(), null, -1);
+
         }
         $user->setSessionToken("-1");
         $user->save();

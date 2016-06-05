@@ -184,6 +184,7 @@ class User {
         $array["name"] = $this->name;
         $array["surname"] = $this->surname;
         $array["email"] = $this->email;
+        $array["role"] = $this->role;
         $array["image"] = $this->image;
         $array["city"] = $this->city;
         $array["address"] = $this->address;

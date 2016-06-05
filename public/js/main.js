@@ -47,6 +47,24 @@ function setup() {
         }
     });
 
+
+    
+    $.ajax({
+        type: "GET",
+        url: "api/time.php",
+        data: { time: 1},
+        success: function (data) {
+            data = JSON.parse(data);
+            var date = new Date(data['time'] * 1000);
+            var hours = date.getHours();
+            var minutes = "0" + date.getMinutes();
+            var seconds = "0" + date.getSeconds();
+            var time = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+            
+            $("#timeDisplay").html("Vrijeme: " + time);
+        }
+    })
+
 }
 
 function getParams(){

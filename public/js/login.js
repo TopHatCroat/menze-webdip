@@ -1,6 +1,6 @@
-$(document).ready(function(){
+$(document).ready(function(e){
     var params = getParams();
-    if(params["activation"][0] != undefined){
+    if(params["activation"] != undefined){
         $.ajax({
             type: "GET",
             url: "api/login.php",
@@ -30,11 +30,12 @@ $(document).ready(function(){
                 if(parsed['success'] == undefined){
                     showMessage("error", parsed);
                 } else {
-                    location.reload();
+                    window.location.replace("index.php");
                 }
             }
         });
 
         e.preventDefault();
     });
+
 })

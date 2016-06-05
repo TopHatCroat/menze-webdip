@@ -7,6 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="public/js/main.js"></script>
+    <script type="text/javascript" src="public/js/helpers.js"></script>
 </head>
 <body>
 <div id="wrapper">
@@ -22,9 +23,10 @@
                 <li id="restaurantsLink"><a href="restaurants.php" title="Menze">About</a></li>
                 <li id="usersLink"><a href="users.php" title="Korisnici">Korisnici</a></li>
                 <li id="registerLink"><a href="register.php" title="Registriraj se">Registriraj se</a></li>
-                <li id="picturesLink"><a href="pictures.php" title="Slike">Work</a></li>
+                <li id="picturesLink"><a href="pictures.php" title="Slike">Slike</a></li>
                 <li id="contactLink"><a href="contact.php" title="O autoru">Contact</a></li>
-                
+                <li id="adminLink"><a href="admin.php" title="Admin">Admin</a></li>
+
             </ul>
         </nav>
     </header>

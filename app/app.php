@@ -11,6 +11,7 @@ include_once('models/role.php');
 include_once('helpers/userHelper.php');
 include_once('helpers/session.php');
 include_once('helpers/auth.php');
+include_once('helpers/Settings.php');
 
 $dbc = Database::init();
 
