@@ -180,6 +180,7 @@ class User {
 
     public function toArray(){
         $array = array();
+        $array["id"] = $this->id;
         $array["username"] = $this->username;
         $array["name"] = $this->name;
         $array["surname"] = $this->surname;
@@ -197,14 +198,6 @@ class User {
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
     }
 
     /**

@@ -36,7 +36,6 @@ class Restaurant
         $sql = "SELECT * FROM restaurants WHERE id='$id'";
         $restaurant = new Restaurant();
         $result = mysqli_fetch_array(Database::query($sql));
-        $result = $result->fetch_assoc();
         $restaurant->build($result);
         return $restaurant;
     }

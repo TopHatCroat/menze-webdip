@@ -8,16 +8,18 @@
         ?>
 
         <div id="content">
-            <table id="adminTable" class="elavated">
-                <tbody>
-                <h4>Serversko vrijeme</h4>
-                <tr>
-                    <td><input id="timeInput" type="number"></td>
-                    <td><input id="getTimeButton" type="button" value="Dohvati vrijeme"></td>
-                    <td><input id="setTimeButton" type="button" value="Postavi vrijeme"></td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="elavated">
+                <table id="adminTable">
+                    <tbody>
+                    <h4>Serversko vrijeme</h4>
+                    <tr>
+                        <td><input id="timeInput" type="number"></td>
+                        <td><input id="getTimeButton" type="button" value="Dohvati vrijeme"></td>
+                        <td><input id="setTimeButton" type="button" value="Postavi vrijeme"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <div id="restaurants" class="elavated">
                 <h4>Novi restoran</h4>

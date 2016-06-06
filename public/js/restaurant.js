@@ -4,15 +4,15 @@ var loadRestourants = function(){
         type: 'GET',
         dataType: 'json',
         success: function (json) {
-            var inHtml = "<div class='restaurants elavated'>"
+            var inHtml = "<div class='restaurants'>"
             $.each(json, function(i, item){
-                inHtml += "<div class='restaurant'>";
-                inHtml += "<img src='" + json[i].picture.substring(3) + "'>" + "</img>"
-                inHtml += "<p>" + "Naziv: " + json[i].name + "</p>"
-                inHtml += "<p>" + "Email: " + json[i].email + "</p>"
-                inHtml += "<p>" + "Grad: " + json[i].city + "</p>"
-                inHtml += "<p>" + "Adresa: " + json[i].address + "</p>"
-                inHtml += "</div>";
+                inHtml += "<a class='' href='restaurant.php?id=" + json[i].id  + "'> <div class='card card-shadowed'>";
+                if(json[i].picture == "") inHtml += "<img src='" + "public/img/profile/defaultRestaurant.jpg" + "'>" + "</img>";
+                else inHtml += "<img src='" + json[i].picture.substring(3) + "'>" + "</img>";
+                inHtml += "<p class='card-title'>" + json[i].name + "</p>";
+                inHtml += "<p class='card-body'>" + "Email: " + json[i].email + "</p>";
+                inHtml += "<p class='card-body'>" + "Adresa: " + json[i].address + ", " + json[i].city + "</p>";
+                inHtml += "</div></a>";
 
             })
             inHtml += "</div>"
@@ -24,4 +24,8 @@ var loadRestourants = function(){
 $('document').ready(function(e){
     clearContent();
     loadRestourants();
+
+    var params = getParams();
+    console.log(params);
+
 })

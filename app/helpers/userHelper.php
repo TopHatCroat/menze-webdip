@@ -59,6 +59,19 @@ class UserHelper{
         }
     }
 
+    public static function hasRight($user, $restaurant){
+        if(!is_a($user, "User")){
+            var_dump($user);
+            return false;
+        }
+
+        if(self::isAdmin($user)) return true;
+        //TODO: test if this works
+        $sql = "SELECT * FROM restaurant_moderators WHERE users_id='$user->getId()' and restaurants_id='$restaurant->getId()'";
+        $result = Database::count(sql);
+        var_dump($sql, $result);
+    }
+
 }
 
 ?>

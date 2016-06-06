@@ -2,12 +2,7 @@
 include_once('../app/app.php');
 
 $errors = array();
-if(isset($_GET['id']) && !empty($_GET['id'])){
-    $restaurant = Restaurant::findById($_GET['id']);
-    echo json_encode($restaurant->toArray());
-    die();
-}
-
+//restaurant.php [POST: new]
 if(isset($_POST['new']) && !empty($_POST['new'])) {
     if(isset($_POST['name']) && !empty($_POST['name'])){
         if(preg_match('/((\%3D)|(=))[^\n]*((\%27)|(\') | (\-\-)|(\%3B)|(;))/i', $_POST['name'])){
@@ -37,7 +32,8 @@ if(isset($_POST['new']) && !empty($_POST['new'])) {
         if (isset($_FILES['image']['name']) && !empty($_FILES['image']['name'])) {
             $imageName = explode(".", $_FILES['image']['name']);
             $extension = end($imageName);
-            $imagePath = "../public/img/profile/" . $_POST['name'] . "." . $extension;
+            $imagePath = "../public/img/profile/" . $_POST['name'] . time() . "." . $extension;
+            $imagePath = str_replace(" ", "", $imagePath);
 
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) {
                 $newRestaurant->setImage($imagePath);
@@ -58,9 +54,29 @@ if(isset($_POST['new']) && !empty($_POST['new'])) {
 
 
 
-
-$restaurants = Restaurant::all();
 $json = array();
+
+//FOR EDITING RESTAURANTS
+//restaurant.php?id=[restaurantId]
+if(isset($_GET['id']) && !empty($_GET['id'])){
+    $editRestaurant = Restaurant::findById($_GET['id']);
+    if($editRestaurant != null){
+        $user = Session::getLoggedInUser();
+        if(UserHelper::hasRight($user, $editRestaurant)){
+            //user has right to edit restaurant
+            $json["admin"] = $user->toArray();
+        }
+        //restoraunt found
+        $json["restaurant"] = $editRestaurant->toArray();
+    } else {
+        $json["error"] = "Restoran ne postoji";
+    }
+    echo json_encode($json);
+    die();
+}
+
+//restaurant.php?
+$restaurants = Restaurant::all();
 
 foreach ($restaurants as $r){
     $json[] = $r->toArray();
