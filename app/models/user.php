@@ -90,7 +90,6 @@ class User {
      */
     static public function findById($id){
         $sql = "SELECT * FROM users WHERE id='$id'";
-        echo $sql;
         $user = new User();
         $result = mysqli_fetch_array(Database::query($sql));
         if($result['id'] == null) return null;

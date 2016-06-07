@@ -21,7 +21,6 @@ class UserHelper{
     
     public static function rememberUser($user){
         if(!is_a($user, "User")){
-            var_dump($user);
             return false;
         }
 
@@ -37,7 +36,6 @@ class UserHelper{
 
     public static function forgetUser($user){
         if(!is_a($user, "User")){
-            var_dump($user);
             return false;
         }
 
@@ -49,7 +47,6 @@ class UserHelper{
 
     public static function isAdmin($user){
         if(!is_a($user, "User")){
-            var_dump($user);
             return false;
         }
         if($user->getRole() != "3"){
@@ -59,17 +56,21 @@ class UserHelper{
         }
     }
 
-    public static function hasRight($user, $restaurant){
+    public static function hasRight($user, $item){
         if(!is_a($user, "User")){
-            var_dump($user);
             return false;
         }
-
         if(self::isAdmin($user)) return true;
+
+        if(is_a($item, "User")){
+            if($item->getId() == $user->getId()) return true;
+            else return false;
+        } else if(is_a($item, "Restaurant")){
+            $sql = "SELECT * FROM restaurant_moderators WHERE users_id='$user->getId()' and restaurants_id='$item->getId()'";
+            $result = Database::count(sql);
+        } else return false;
+
         //TODO: test if this works
-        $sql = "SELECT * FROM restaurant_moderators WHERE users_id='$user->getId()' and restaurants_id='$restaurant->getId()'";
-        $result = Database::count(sql);
-        var_dump($sql, $result);
     }
 
 }

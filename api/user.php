@@ -7,7 +7,7 @@ $json = array();
 //FOR EDITING AND VIEWING USERS
 //user.php?id=[userId]
 if(isset($_GET['id']) && !empty($_GET['id'])){
-    $editUser = Restaurant::findById($_GET['id']);
+    $editUser = User::findById($_GET['id']);
     if($editUser != null){
         $user = Session::getLoggedInUser();
         if(UserHelper::hasRight($user, $editUser)){
