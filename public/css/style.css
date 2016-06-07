@@ -1,6 +1,7 @@
 html, body{
     margin: 0;
     background-color: #eee;
+    font-family: 'Noto Sans', sans-serif;
 }
 
 p {
@@ -17,10 +18,11 @@ a {
     background: #fff;
     border-radius: 2px;
     display: inline-block;
-    margin: 1rem;
+    margin: 1em;
     position: relative;
     width: 300px;
 }
+
 
 .card img{
     margin: 0 0 10px 0;
@@ -44,9 +46,8 @@ a {
 }
 
 .card-detail {
-    width: 900px;
-    margin: 0 auto;
-
+    width: 100%;
+    margin: auto;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
@@ -74,7 +75,6 @@ a {
 }
 
 .fill-horizontal{
-    width: 100%;
 }
 
 .clearfix {
@@ -115,7 +115,8 @@ h1 {
 
 form{
     padding: 5%;
-    width: 400px;
+
+    width: 100%;
     margin: auto;
 }
 
@@ -168,12 +169,14 @@ nav ul li a {
     padding: 20px;
     background: #66b3ff;
     text-decoration: none;
-    font: bold 14px Helvetica, Sans-Serif;
-    letter-spacing: -1px;
+    font-family: 'Oxygen', sans-serif;
+    font-weight: 700;
 }
 
 nav ul li a:hover {
     background-color: #66b3ff !important;
+    text-decoration: none;
+
 }
 
 nav ul li a.active {

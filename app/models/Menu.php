@@ -1,18 +1,10 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 2.6.2016.
- * Time: 22:25
- */
-class Restaurant
-{
+class Menu {
     private $id;
-    private $name;
-    private $email;
-    private $address;
-    private $city;
+    private $restaurant;
+    private $title;
+    private $description;
     private $image;
     private $createdAt;
     private $updatedAt;
@@ -21,35 +13,35 @@ class Restaurant
         $sql = "";
         if($this->id == null){
             $this->createdAt = date('Y-m-d H:i:s');
-            $sql = "INSERT INTO restaurants(name, email, address, cities_id, image, created_at, updated_at) " .
-                "VALUES ('$this->name', '$this->email', '$this->address', '$this->city', '$this->image', '$this->createdAt', '$this->updatedAt')";
+            $sql = "INSERT INTO menus(restaurant_id, title, description, image, created_at, updated_at) " .
+                "VALUES ('$this->restaurant', '$this->title', '$this->description', '$this->image', '$this->createdAt', '$this->updatedAt')";
         } else{
             $this->updatedAt = date('Y-m-d H:i:s');
-            $sql = "UPDATE resstaurants SET name='$this->name', email='$this->email', address='$this->address', cities_id='$this->city', image='$this->image', created_at='$this->createdAt',updated_at='$this->updatedAt' WHERE id='$this->id'";
+            $sql = "UPDATE menus SET restaurants_id='$this->restaurant', title='$this->title', description='$this->description', image='$this->image', created_at='$this->createdAt',updated_at='$this->updatedAt' WHERE id='$this->id'";
         }
         $result = Database::query($sql);
 
         return $result;
     }
-    
+
     static public function findById($id){
-        $sql = "SELECT * FROM restaurants WHERE id='$id'";
-        $restaurant = new Restaurant();
+        $sql = "SELECT * FROM menus WHERE id='$id'";
+        $menu = new Menu();
         $result = mysqli_fetch_array(Database::query($sql));
-        $restaurant->build($result);
-        return $restaurant;
+        $menu->build($result);
+        return $menu;
     }
 
     static public function all(){
-        $sql = "SELECT * FROM restaurants";
+        $sql = "SELECT * FROM menus";
         $result = Database::query($sql);
-        $restaurants = array();
+        $menus = array();
         while ($row = $result->fetch_assoc()) {
-            $restaurant = new Restaurant();
-            $restaurant->build($row);
-            array_push($restaurants, $restaurant);
+            $menu = new Menu();
+            $menu->build($row);
+            array_push($menus, $menu);
         }
-        return $restaurants;
+        return $menus;
     }
 
     /**
@@ -58,11 +50,10 @@ class Restaurant
      */
     private function build($result){
         $this->id = $result['id'];
-        $this->name = $result['name'];
-        $this->email = $result['email'];
-        $this->city = $result['cities_id'];
+        $this->restaurant = $result['restaurant_id'];
+        $this->title = $result['title'];
+        $this->description = $result['description'];
         $this->image = $result['image'];
-        $this->address = $result['address'];
         $this->createdAt = $result['created_at'];
         $this->updatedAt = $result['updated_at'];
     }
@@ -70,11 +61,10 @@ class Restaurant
     public function toArray(){
         $array = array();
         $array["id"] = $this->id;
-        $array["name"] = $this->name;
-        $array["email"] = $this->email;
-        $array["city"] = $this->city;
-        $array["address"] = $this->address;
-        $array["picture"] = $this->image;
+        $array["restaurant"] = $this->restaurant;
+        $array["title"] = $this->title;
+        $array["description"] = $this->description;
+        $array["image"] = $this->image;
         $array["updatedAt"] = $this->updatedAt;
         $array["createdAt"] = $this->createdAt;
         return $array;
@@ -99,65 +89,49 @@ class Restaurant
     /**
      * @return mixed
      */
-    public function getName()
+    public function getRestaurant()
     {
-        return $this->name;
+        return $this->restaurant;
     }
 
     /**
-     * @param mixed $name
+     * @param mixed $restaurant
      */
-    public function setName($name)
+    public function setRestaurant($restaurant)
     {
-        $this->name = $name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param mixed $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
+        $this->restaurant = $restaurant;
     }
 
     /**
      * @return mixed
      */
-    public function getAddress()
+    public function getTitle()
     {
-        return $this->address;
+        return $this->title;
     }
 
     /**
-     * @param mixed $address
+     * @param mixed $title
      */
-    public function setAddress($address)
+    public function setTitle($title)
     {
-        $this->address = $address;
+        $this->title = $title;
     }
 
     /**
      * @return mixed
      */
-    public function getCity()
+    public function getDescription()
     {
-        return $this->city;
+        return $this->description;
     }
 
     /**
-     * @param mixed $city
+     * @param mixed $description
      */
-    public function setCity($city)
+    public function setDescription($description)
     {
-        $this->city = $city;
+        $this->description = $description;
     }
 
     /**
@@ -207,7 +181,4 @@ class Restaurant
     {
         $this->updatedAt = $updatedAt;
     }
-
-
-    
 }

@@ -7,7 +7,7 @@ function loadUser(userId) {
         success: function (json) {
             var inHtml = "<div class='user card card-detail'>"
             if(json["admin"] != undefined){
-                if(json["admin"] == "3") inHtml += setEditUserView(json["user"]);
+                if(json["admin"] != "3") inHtml += setEditUserView(json["user"]);
                 else inHtml += setAdminEditUserView(json["user"]);
             } else {
                 inHtml += setUserView(json["user"]);
@@ -37,9 +37,9 @@ var loadUsers = function(){
 
 var setCardUserView = function(item) {
     var inHtml = '';
-    inHtml += "<a class='' href='users.php?id=" + item.id  + "'> <div class='card card-shadowed'>";
+    inHtml += "<a class='' href='users.php?id=" + item.id  + "'><div class='card card-shadowed'>";
     if(item.image == "") inHtml += "<img src='" + "public/img/profile/defaultUser.jpg" + "'>" + "</img>";
-    else inHtml += "<img src='" + item.image.substring(3) + "'>" + "</img>";
+    else inHtml += "<img src='" + item.image.substring(3) + "'/>";
     inHtml += "<p class='card-title'>" + item.username + "</p>";
     inHtml += "<p class='card-body'>" + item.email + "</p>";
     inHtml += "<p class='card-body'>" + item.address + ", " + item.city + "</p>";
