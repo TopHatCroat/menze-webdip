@@ -16,7 +16,7 @@
     <header>
         <div id="banner">
             <h1 id="logo">Projekt Menze</h1>
-            <div id="userInfo">
+            <div id="user-info">
             </div>
         </div>
         <nav>

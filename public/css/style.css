@@ -123,9 +123,9 @@ form{
 /* Nav */
 /*header*/
 header {
-    background: #3399FF;
+    background: #FAFAFF;
     padding: 10px;
-    box-shadow: 4px 4px 3px #888;
+    border-bottom: 1px solid #888;
     margin-bottom: 40px;
 }
 
@@ -135,10 +135,21 @@ header #logo{
     margin: 0px auto;
 }
 
-header #userInfo{
+header #user-info{
     max-width: 900px;
     width: 100%;
     margin: 0px auto;
+    color: #222 !important;
+}
+
+header #user-info a{
+    color: #222 !important;
+
+}
+
+header #user-info p{
+    color: #222 !important;
+
 }
 
 header div p {

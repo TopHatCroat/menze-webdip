@@ -1,6 +1,5 @@
 <?php
 include_once('../app/app.php');
-
 $errors = array();
 //restaurant.php [POST: new]
 if(isset($_POST['new']) && !empty($_POST['new'])) {
@@ -68,6 +67,13 @@ if(isset($_GET['id']) && !empty($_GET['id'])){
         }
         //restoraunt found
         $json["restaurant"] = $editRestaurant->toArray();
+
+        $menus = Menu::findByRestaurant($editRestaurant->getId());
+        foreach ($menus as $m) {
+            $json["restaurant"]["menus"][] = $m->toArray();
+        }
+
+
     } else {
         $json["error"] = "Restoran ne postoji";
     }

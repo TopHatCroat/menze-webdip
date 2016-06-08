@@ -16,7 +16,9 @@ if(isset($_GET['logout']) && !empty($_GET['logout'])){
     if($user != null){
         Session::logOutUser($user);
         UserHelper::forgetUser($user);
+        $success["logout"] = "Uspješno ste se odjavili sa sustava";
     }
+    json_encode($success);
     die();
 }
 

@@ -1,13 +1,6 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 2.6.2016.
- * Time: 22:25
- */
-class Restaurant
-{
+class Restaurant {
     private $id;
     private $name;
     private $email;

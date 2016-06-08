@@ -27,10 +27,10 @@ function setup() {
         success: function(data)
         {
             if(data == ""){
-                $("#userInfo").html("<p><a href='login.php'>Prijavi se</a></p>");
+                $("#user-info").html("<p><a href='login.php'>Prijavi se</a></p>");
             } else {
                 data = JSON.parse(data);
-                $("#userInfo").html("<p>Dobrodošao " + data["username"] + "| <a id='logoutLink' href='#'>Odjavi se</a></p>");
+                $("#user-info").html("<p>Dobrodošao " + data["username"] + "| <a id='logoutLink' href='#'>Odjavi se</a></p>");
 
                 $("#logoutLink").on("click", function () {
                     $.ajax({
@@ -39,6 +39,7 @@ function setup() {
                         data: {logout: 1},
                         success: function (data) {
                             location.reload();
+                            showMessage(data);
                         }
                     });
                 })
@@ -86,4 +87,19 @@ function index(event){
     $("#content").append("hi");
 
     event.preventDefault();
+}
+
+
+var setCities = function () {
+    $.ajax({
+        url: "api/city.php",
+        dataType: "json",
+        success: function (data) {
+            var selectOptions = '';
+            $.each(data, function(key, value){
+                selectOptions += '<option value="' + key + '">' + value + '</option>'
+            });
+            $("#city").html(selectOptions);
+        }
+    })
 }

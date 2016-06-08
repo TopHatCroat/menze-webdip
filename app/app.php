@@ -8,6 +8,8 @@ include_once('helpers/database.php');
 include_once('models/user.php');
 include_once('models/city.php');
 include_once('models/Restaurant.php');
+include_once('models/Menu.php');
+include_once('models/DailyMenu.php');
 include_once('models/role.php');
 include_once('helpers/userHelper.php');
 include_once('helpers/session.php');

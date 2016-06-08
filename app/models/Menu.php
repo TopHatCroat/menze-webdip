@@ -13,14 +13,13 @@ class Menu {
         $sql = "";
         if($this->id == null){
             $this->createdAt = date('Y-m-d H:i:s');
-            $sql = "INSERT INTO menus(restaurant_id, title, description, image, created_at, updated_at) " .
+            $sql = "INSERT INTO menus(restaurants_id, title, description, image, created_at, updated_at) " .
                 "VALUES ('$this->restaurant', '$this->title', '$this->description', '$this->image', '$this->createdAt', '$this->updatedAt')";
         } else{
             $this->updatedAt = date('Y-m-d H:i:s');
             $sql = "UPDATE menus SET restaurants_id='$this->restaurant', title='$this->title', description='$this->description', image='$this->image', created_at='$this->createdAt',updated_at='$this->updatedAt' WHERE id='$this->id'";
         }
         $result = Database::query($sql);
-
         return $result;
     }
 
@@ -30,6 +29,18 @@ class Menu {
         $result = mysqli_fetch_array(Database::query($sql));
         $menu->build($result);
         return $menu;
+    }
+
+    static public function findByRestaurant($restaurantId){
+        $sql = "SELECT * FROM menus WHERE restaurants_id = '$restaurantId'";
+        $result = Database::query($sql);
+        $menus = array();
+        while ($row = $result->fetch_assoc()) {
+            $menu = new Menu();
+            $menu->build($row);
+            array_push($menus, $menu);
+        }
+        return $menus;
     }
 
     static public function all(){
@@ -50,7 +61,7 @@ class Menu {
      */
     private function build($result){
         $this->id = $result['id'];
-        $this->restaurant = $result['restaurant_id'];
+        $this->restaurant = $result['restaurants_id'];
         $this->title = $result['title'];
         $this->description = $result['description'];
         $this->image = $result['image'];
