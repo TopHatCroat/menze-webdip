@@ -1,59 +1,60 @@
 <?php
 include_once('../app/app.php');
-$errors = array();
+$json = array();
 
 if(isset($_POST['username']) && !empty($_POST['username'])){
     if(preg_match('/((\%3D)|(=))[^\n]*((\%27)|(\') | (\-\-)|(\%3B)|(;))/i', $_POST['username'])){
-        $errors['username'] = "Korisničko sadrži nedozvoljene znakove";
+        $json['errors'][] = "Korisničko sadrži nedozvoljene znakove";
     }
     if(UserHelper::checkIfExists('username', $_POST['username']) != '0'){
-        $errors['username2'] = "Korisničko ime već postoji";
+        $json['errors'][] = "Korisničko ime već postoji";
     };
-} else $errors['username'] = "Korisničko ime mora biti uneseno";
+} else $json['errors'][] = "Korisničko ime mora biti uneseno";
 
 if(isset($_POST['pass']) && !empty($_POST['pass'])){
     if(preg_match('/((\%3D)|(=))[^\n]*((\%27)|(\') | (\-\-)|(\%3B)|(;))/i', $_POST['pass'])){
-        $errors['pass'] = "Lozinka sadrži nedozvoljene znakove";
+        $json['errors'][] = "Lozinka sadrži nedozvoljene znakove";
     }
-} else $errors['pass'] = "Lozinka mora biti unesen";
+} else $json['errors'][] = "Lozinka mora biti unesen";
 
 if(isset($_POST['pass-confirm']) && !empty($_POST['pass-confirm'])){
     if(preg_match('/((\%3D)|(=))[^\n]*((\%27)|(\') | (\-\-)|(\%3B)|(;))/i', $_POST['pass-confirm'])){
-        $errors['pass-confirm'] = "Provjera lozinke sadrži nedozvoljene znakove";
+        $json['errors'][] = "Provjera lozinke sadrži nedozvoljene znakove";
     }
     if($_POST['pass'] != $_POST['pass-confirm']){
-        $errors['pass-confirm'] = "Lozinka i provjera lozinke nisu identični";
+        $json['errors'][] = "Lozinka i provjera lozinke nisu identični";
     }
-} else $errors['pass-confirm'] = "Provjera lozinke mora biti unesen";
+} else $json['errors'][] = "Provjera lozinke mora biti unesen";
 
 if(isset($_POST['email']) && !empty($_POST['email'])){
     if(!preg_match('/^[\w\._\-]{4,}@[a-zA-Z_]+?\.[a-zA-Z]{2,6}$/', $_POST['email'])){
-        $errors['email'] = "Email mora biti ispravan";
+        $json['errors'][] = "Email mora biti ispravan";
     }
     if(UserHelper::checkIfExists('email', $_POST['email']) != '0'){
-        $errors['email2'] = "Već postoji račun sa odabranom e-mail adresom";
+        $json['errors'][] = "Već postoji račun sa odabranom e-mail adresom";
     };
-} else $errors['email'] = "Email mora biti unesen";
+} else $json['errors'][] = "Email mora biti unesen";
 
-if(isset($_FILES['image']) && count(getimagesize($_FILES['image']['tmp_name'])) != 0){
+if(!empty($_FILES['image']['name']) && count(getimagesize($_FILES['image']['tmp_name'])) != 0){
     if($_FILES['image']['size'] > 50 * 1024){
-        $errors['image'] = "Slika mora biti manja od 50 KB";
+        $json['errors'][] = "Slika mora biti manja od 50 KB";
     }
 }
 
 
-if(count($errors) == 0){
+if(count($json) == 0){
     $activationToken = md5($_POST['username'] . $_POST['email'] . time());
     $newUser = new User();
 
-    if(isset($_FILES['image'])){
+    if(isset($_FILES['image']['name']) && !empty($_FILES['image']['name'])){
         $imageName = explode(".", $_FILES['image']['name']);
         $extension = end($imageName);
-        $imagePath = "../public/img/profile/"  . $_POST['username'] . "." . $extension;
+        $imagePath = "../public/img/profile/"  . $_POST['username'] . time() . "." . $extension;
 
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) {
             $newUser->setImage($imagePath);
-        } else $errors['image2'] = "Neuspjelo spremanje slike";
+        } else $json['errors'][] = "Neuspjelo spremanje slike";
+
     }
 
 
@@ -71,7 +72,7 @@ if(count($errors) == 0){
     $newUser->setActive(0);
     $newUser->setDeleted(0);
 
-    if(count($errors) == 0){
+    if(count($json) == 0){
         $to = $_POST['email'];
         $subject = "Aktivacija korisničkog računa";
         $message = "Za aktivaciju računa na Projektu menze kliknite <a href='https://barka.foi.hr/WebDiP/2015_projekti/WebDiP2015x051/login.php?activation=" . $activationToken . "'>OVDJE</a>";
@@ -83,9 +84,8 @@ if(count($errors) == 0){
         mail($to, $subject, $message, $headers);
 
         $newUser->save();
-        $msg["success"] = "Uspješno registriranje";
-        echo json_encode($msg);
+        $json['success'][] = "Uspješno registriranje";
     }
 }
-echo json_encode($errors)
+echo json_encode($json)
 ?>

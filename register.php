@@ -33,7 +33,7 @@
                 <td><select id="city" name="city" placeholder="Grad"></select></td>
             </tr>
             <tr>
-                <td><label for="address">Email:</label></td>
+                <td><label for="address">Adresa:</label></td>
                 <td><input type="text" id="address" name="address" placeholder="Adresa"></td>
             </tr>
             <tr>

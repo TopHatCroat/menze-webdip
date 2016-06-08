@@ -8,7 +8,12 @@ $(document).ready(function(){
             data: $("#register").serialize(),
             success: function(data)
             {
-                showMessage("error", data);
+                var parsed = JSON.parse(data);
+                if(parsed['success'] == undefined){
+                    showMessage("error", parsed);
+                } else {
+                    showMessage("success", parsed);
+                }
             }
         });
 
