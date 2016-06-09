@@ -30,7 +30,6 @@ if(isset($_POST['newReservation'])) {
             $newReservation->setCompleted(0);
             $newReservation->setAcceptedMessage('');
             $newReservation->setCompletedMessage('');
-            var_dump($newReservation);
             $newReservation->save();
             $json["success"][] = "Uspješno napravljena rezervacija";
         } else {

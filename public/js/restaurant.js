@@ -21,7 +21,7 @@ var loadRestaurants = function(){
 }
 
 var loadReservations = function () {
-    
+
 }
 
 var setEditRestaurantView = function (restaurant) {
@@ -88,6 +88,37 @@ var setMenuCards = function (menus) {
     });
     return inHtml += "</div>";
 };
+
+var loadEditReservations = function (reservation) {
+    $.each(reservation, function (i, item) {
+        var inHtml = "<form><table id='user-reservations'>";
+        //TODO:: complete this here you dumb ass
+        inHtml += "<tr><td><label>Reserved at:</label></td></td><td><label>" + reservation[i].reservedAt.substring(5, 17) + "</label></td><td>Prihvaćeno: " + reservation[i].accepted + "</td></tr>";
+        inHtml += "<tr class='" + "reservation-item-" + i + "' ><td colspan='3'>" + reservation[i].acceptedMessage + "</td></tr>";
+        inHtml += "<tr class='" + "reservation-item-" + i + "' ><td colspan='3'>" + reservation[i].completedMessage + "</td></tr>";
+        inHtml += "<tr><td colspan='3'><input type='hidden' id='newMenu' name='newMenu' value='" + restaurant.id + "'></td></tr>"
+        inHtml += "</table></form>";
+        $("#restaurantDetails").append(inHtml);
+
+        $("#newMenu").submit(function(e) {
+            $.ajax({
+                type: "POST",
+                url: "api/reservations.php",
+                data: $("#newMenu").serialize(),
+                success: function (data) {
+                    var parsed = JSON.parse(data);
+                    if (parsed['success'] == undefined) {
+                        showMessage("error", parsed);
+                    } else {
+                        showMessage("success", parsed);
+                    }
+                }
+            });
+
+            e.preventDefault();
+    })
+    return inHtml;
+}
 
 var setReservationView = function (restaurant) {
     inHtml = "<div class='reservation'>"

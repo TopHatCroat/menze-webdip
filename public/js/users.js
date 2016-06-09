@@ -12,7 +12,7 @@ function loadUser(userId) {
             } else {
                 inHtml += setUserView(json["user"]);
             }
-
+            inHtml += loadReservations(json["reservations"]);
             inHtml += "</div>"
             $("#content").html(inHtml);
         }
@@ -98,6 +98,17 @@ var setUserView = function (user) {
     return inHtml;
 
 };
+
+var loadReservations = function (reservation) {
+    var inHtml = "<table id='user-reservations'>";
+    $.each(reservation, function (i, item) {
+        inHtml += "<tr><td>" + reservation[i].restaurant + "</td><td>" + reservation[i].reservedAt.substring(5, 17) + "</td><td>Prihvaćeno: " + reservation[i].accepted + "</td></tr>";
+        inHtml += "<tr class='" + "reservation-item-" + i + "' ><td colspan='3'>" + reservation[i].acceptedMessage + "</td></tr>";
+        inHtml += "<tr class='" + "reservation-item-" + i + "' ><td colspan='3'>" + reservation[i].completedMessage + "</td></tr>";
+    })
+    inHtml += "</table>"
+    return inHtml;
+}
 
 $('document').ready(function(e){
     clearContent();

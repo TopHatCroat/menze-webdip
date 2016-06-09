@@ -16,6 +16,14 @@ if(isset($_GET['id']) && !empty($_GET['id'])){
         }
     //user found
         $json["user"] = $editUser->toArray();
+        $reservations = Reservation::findByUser($editUser->getId());
+        $json["reservations"] = array();
+        if($reservations != null){
+            foreach ($reservations as $r){
+                $json["reservations"][] = $r->toArray();
+            }
+        }
+        
     } else {
         $json["error"] = "Korisnik ne postoji";
     }

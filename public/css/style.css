@@ -68,6 +68,14 @@ a {
     float: left;
 }
 
+.visible{
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
 .elavated {
     box-shadow: 2px 2px 2px #888;
     border: #BBB 1px solid;
