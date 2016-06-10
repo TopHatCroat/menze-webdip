@@ -1,9 +1,10 @@
 <?php
-
 include_once('../app/app.php');
 $json = array();
 $time = 0;
 
+
+var_dump($_POST);
 // reservation.php/
 if(isset($_POST['newReservation'])) {
     if (isset($_POST['dateTime']) && !empty($_POST['dateTime'])) {
@@ -42,25 +43,19 @@ if(isset($_POST['newReservation'])) {
 }
 // reservation.php/
 if(isset($_POST['editReservation'])) {
-    if (isset($_POST['timeDate']) && !empty($_POST['timeDate'])) {
-        if (preg_match('/((\%3D)|(=))[^\n]*((\%27)|(\') | (\-\-)|(\%3B)|(;))/i', $_POST['title'])) {
-            $json['errors'][] = "Vrijeme i datum sadrži nedozvoljene znakove";
-        }
-    } else $json['errors'][] = "Vrijeme i datum mora biti unesen";
 
-    if (count($json['errors']) == 0) {
-        $editReservation = Reservation::findById($_POST['id']);
-        if($editReservation != null) {
-            if(!empty($_POST["accepted"])) $newReservation->setAccepted($_POST["accepted"]);
-            if(!empty($_POST["completed"])) $newReservation->setCompleted($_POST["completed"]);
-            if(!empty($_POST["acceptedMessage"])) $newReservation->setAcceptedMessage($_POST["acceptedMessage"]);
-            if(!empty($_POST["completedMessage"])) $newReservation->setCompletedMessage($_POST["completedMessage"]);
+    $editReservation = Reservation::findById($_POST['editReservation']);
+    if($editReservation != null) {
+        if(isset($_POST["accepted"])) $editReservation->setAccepted(1);
+        if(isset($_POST["completed"])) $editReservation->setCompleted(1);
+        if(!empty($_POST["acceptedMessage"])) $editReservation->setAcceptedMessage($_POST["acceptedMessage"]);
+        if(!empty($_POST["completedMessage"])) $editReservation->setCompletedMessage($_POST["completedMessage"]);
 
-            $newReservation->save();
-            $json["success"][] = "Uspješno izmjenjena rezervacija";
-        }
-
+        $editReservation->save();
+        $json["success"][] = "Uspješno izmjenjena rezervacija";
     } else $json['errors'][] = "Rezervacija nije pronađena";
+
+
 
     echo json_encode($json);
     die();

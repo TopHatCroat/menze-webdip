@@ -73,7 +73,10 @@ if(isset($_GET['id']) && !empty($_GET['id'])){
             $json["restaurant"]["menus"][] = $m->toArray();
         }
 
-
+        $reservations = Reservation::findByRestaurant($editRestaurant->getId());
+        foreach ($reservations as $r) {
+            $json["restaurant"]["reservations"][] = $r->toArray();
+        }
     } else {
         $json["error"] = "Restoran ne postoji";
     }

@@ -89,53 +89,28 @@ var setMenuCards = function (menus) {
     return inHtml += "</div>";
 };
 
-var loadEditReservations = function (reservation) {
+var setEditReservationsView = function (reservation) {
+    var inHtml = "<div id='user-reservations'>";
     $.each(reservation, function (i, item) {
-        var inHtml = "<form><table id='user-reservations'>";
-        //TODO:: complete this here you dumb ass
-        inHtml += "<tr><td><label>Reserved at:</label></td></td><td><label>" + reservation[i].reservedAt.substring(5, 17) + "</label></td><td>Prihvaćeno: " + reservation[i].accepted + "</td></tr>";
-        inHtml += "<tr class='" + "reservation-item-" + i + "' ><td colspan='3'>" + reservation[i].acceptedMessage + "</td></tr>";
-        inHtml += "<tr class='" + "reservation-item-" + i + "' ><td colspan='3'>" + reservation[i].completedMessage + "</td></tr>";
-        inHtml += "<tr><td colspan='3'><input type='hidden' id='newMenu' name='newMenu' value='" + restaurant.id + "'></td></tr>"
+        inHtml += "<form class='editReservation'><table class='user-reservation'>";
+        inHtml += "<tr><td><label>Reservirano u </label></td></td><td><label>" + reservation[i].reservedAt.substring(5, 17) + "</label></td>";
+        if(reservation[i].accepted == "1") inHtml += "<td>" + "<input type='checkbox' name='accepted' value='1' checked>" + "Prihvaćeno" + "</td>";
+        else inHtml += "<td>" + "<input type='checkbox' name='accepted' value='1'>" + "Prihvaćeno" + "</td>";
+        if(reservation[i].completed == "1") inHtml += "<td>" + "<input type='checkbox' name='completed' value='1' checked>"+ "Završeno" + "</td></tr>";
+        else inHtml += "<td>" + "<input type='checkbox' name='completed' value='1'>"+ "Završeno" + "</td></tr>";
+        inHtml += "<tr><td colspan='5'><input type='text' name='acceptedMessage' value='" + reservation[i].acceptedMessage + "' size='50'>" +  "</td></tr>";
+        inHtml += "<tr><td colspan='5'><input type='text' name='acceptedMessage' value='" + reservation[i].acceptedMessage + "' size='50'>" +  "</td></tr>";
+        inHtml += "<tr><td colspan='5'><input type='hidden' id='editReservation' name='editReservation' value='" + reservation[i].id + "'></td></tr>"
+        inHtml += "<tr><td></td><td><input id='submitReservation' class='button' type='submit' value='Izmjeni'></td></tr>";
         inHtml += "</table></form>";
-        $("#restaurantDetails").append(inHtml);
-
-        $("#newMenu").submit(function(e) {
-            $.ajax({
-                type: "POST",
-                url: "api/reservations.php",
-                data: $("#newMenu").serialize(),
-                success: function (data) {
-                    var parsed = JSON.parse(data);
-                    if (parsed['success'] == undefined) {
-                        showMessage("error", parsed);
-                    } else {
-                        showMessage("success", parsed);
-                    }
-                }
-            });
-
-            e.preventDefault();
-    })
-    return inHtml;
-}
+    });
+    return inHtml + "</div>";
+};
 
 var setReservationView = function (restaurant) {
     inHtml = "<div class='reservation'>"
     inHtml += "<form id='newReservation' method='post' name='newReservation' action='api/reservation.php'><table class='fill-horizontal'>";
     inHtml += "<tr><td><label for='dateTime'>Vrijeme i datum:</label></td><td><input type='text' value='' name='dateTime' id='newReservationPicker'/></td></tr>"
-    inHtml += "<tr><td></td><td><input type='hidden' id='restaurant' name='restaurant' value='" + restaurant.id + "'></td></tr>"
-    inHtml += "<tr><td></td><td><input type='hidden' id='newReservation' name='newReservation' value='1'></td></tr>"
-    inHtml += "<tr><td></td><td><input id='submit' class='button' type='submit' value='Rezerviraj'></td></tr>";
-    inHtml += "</table></form></div>";
-
-    return inHtml;
-};
-
-var setReservationEditView = function (restaurant) {
-    inHtml = "<div class='reservation'>"
-    inHtml += "<form id='editReservation' method='post' name='editReservation' action='api/reservation.php'><table class='fill-horizontal'>";
-    inHtml += "<tr><td><label for='dateTime'>Vrijeme i datum:</label></td><td><input type='text' value='' name='dateTime' id='editReservationPicker'/></td></tr>"
     inHtml += "<tr><td></td><td><input type='hidden' id='restaurant' name='restaurant' value='" + restaurant.id + "'></td></tr>"
     inHtml += "<tr><td></td><td><input type='hidden' id='newReservation' name='newReservation' value='1'></td></tr>"
     inHtml += "<tr><td></td><td><input id='submit' class='button' type='submit' value='Rezerviraj'></td></tr>";
@@ -182,6 +157,24 @@ var completeSetup = function (e) {
         });
 
     });
+
+    $(".editReservation").submit(function(e) {
+        $.ajax({
+            type: "POST",
+            url: "api/reservation.php",
+            data: $(this).serialize(),
+            success: function (data) {
+                var parsed = JSON.parse(data);
+                if (parsed['success'] == undefined) {
+                    showMessage("error", parsed);
+                } else {
+                    showMessage("success", parsed);
+                }
+            }
+        });
+
+        e.preventDefault();
+    });
 };
 
 var loadRestaurant = function (restaurantId) {
@@ -197,6 +190,7 @@ var loadRestaurant = function (restaurantId) {
             if(json["admin"] != undefined){
                 $("#restaurantDetails").append(setEditRestaurantView(json["restaurant"]));
                 $("#restaurantDetails").append(setNewMenuView(json["restaurant"]));
+                $("#restaurantDetails").append(setEditReservationsView(json["restaurant"]["reservations"]));
             } else {
                 $("#restaurantDetails").append(setRestaurantView(json["restaurant"]));
             }

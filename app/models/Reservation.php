@@ -37,10 +37,14 @@ class Reservation {
 
     static public function findByRestaurant($id){
         $sql = "SELECT * FROM reservations WHERE restaurants_id='$id'";
-        $restaurant = new Reservation();
-        $result = mysqli_fetch_array(Database::query($sql));
-        $restaurant->build($result);
-        return $restaurant;
+        $result = Database::query($sql);
+        $reservations = array();
+        while ($row = $result->fetch_assoc()) {
+            $reservation = new Reservation();
+            $reservation->build($row);
+            array_push($reservations, $reservation);
+        }
+        return $reservations;
     }
 
     static public function findByUser($id){

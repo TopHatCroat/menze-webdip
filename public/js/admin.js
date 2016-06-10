@@ -62,24 +62,24 @@ $(document).ready(function (e) {
         }
     })
 
-    // $("#newRestaurant").submit(function(e) {
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "api/restaurant.php",
-    //         data: $("#newRestaurant").serialize(),
-    //         success: function(data)
-    //         {
-    //             data = JSON.parse(data);
-    //             if(data["success"] == undefined ){
-    //                 showMessage("error", data);
-    //             } else {
-    //                 showMessage("success", data);
-    //             }
-    //         }
-    //     });
-    //
-    //     e.preventDefault();
-    // });
+    $("#newRestaurant").submit(function(e) {
+        $.ajax({
+            type: "POST",
+            url: "api/restaurant.php",
+            data: $("#newRestaurant").serialize(),
+            success: function(data)
+            {
+                data = JSON.parse(data);
+                if(data["success"] == undefined ){
+                    showMessage("error", data);
+                } else {
+                    showMessage("success", data);
+                }
+            }
+        });
+    
+        e.preventDefault();
+    });
 
     e.preventDefault();
 
