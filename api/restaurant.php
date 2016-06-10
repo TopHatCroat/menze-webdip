@@ -1,5 +1,6 @@
 <?php
 include_once('../app/app.php');
+Database::generalLog(basename(__FILE__) . print_r($_POST,true), Session::getLoggedInUser()->getId());
 $errors = array();
 //restaurant.php [POST: new]
 if(isset($_POST['new']) && !empty($_POST['new'])) {

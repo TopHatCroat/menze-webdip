@@ -32,6 +32,14 @@ class Database {
     }
 
     public static function query($q) {
+        return self::queryLog($q, null);
+    }
+
+    public static function queryWithLog($q, $userId) {
+        return self::queryLog($q, $userId);
+    }
+
+    public static function rawQuery($q) {
         return self::$instance->MYSQLI->query($q);
     }
 
@@ -42,6 +50,21 @@ class Database {
     public static function count($q){
         $result = mysqli_fetch_array(self::$instance->MYSQLI->query($q));
         return $result['COUNT(*)'];
+    }
+
+    private static function queryLog($q, $userId) {
+        if($userId == null) $sql = "INSERT INTO db_log(query) values('$q')";
+        else $sql = "INSERT INTO db_log(query, users_id) values('$q', '$userId')";
+        self::rawQuery($sql);
+        return self::rawQuery($q);
+    }
+
+    public static function logInLog($action, $userId){
+        self::rawQuery("INSERT INTO log_in_log(action, users_id) VALUES('$action', '$userId')");
+    }
+    
+    public static function generalLog($action, $userId){
+        self::rawQuery("INSERT INTO general_log(action, users_id) VALUES('$action', '$userId')");
     }
 
 }

@@ -175,6 +175,24 @@ var completeSetup = function (e) {
 
         e.preventDefault();
     });
+    
+    $("#editRestaurant").submit(function(e) {
+        $.ajax({
+            type: "POST",
+            url: "api/restaurant.php",
+            data: $("#editRestaurant").serialize(),
+            success: function (data) {
+                var parsed = JSON.parse(data);
+                if (parsed['success'] == undefined) {
+                    showMessage("error", parsed);
+                } else {
+                    showMessage("success", parsed);
+                }
+            }
+        });
+
+        e.preventDefault();
+    });
 };
 
 var loadRestaurant = function (restaurantId) {

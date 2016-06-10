@@ -33,7 +33,8 @@ class Session {
     const SESSION_NAME = "sessionToken";
 
     static function createSession() {
-        session_start();
+        if(session_id() == "") session_start();
+
     }
 
 
@@ -47,6 +48,8 @@ class Session {
             var_dump($user);
             return false;
         }
+
+        Database::logInLog("login", $user->getId());
         self::createSession();
         $_SESSION[self::SESSION_NAME] = session_id();
         $user->setSessionToken($_SESSION[self::SESSION_NAME]);
@@ -82,8 +85,13 @@ class Session {
      * Logs User out ie. deletes session
      */
     static function logOutUser($user) {
+        if(!is_a($user, "User")){
+            var_dump($user);
+            return false;
+        }
         self::createSession();
         if (session_id() != "") {
+            Database::logInLog("logout", $user->getId());
             session_unset();
             session_destroy();
             unset($_COOKIE["PHPSESSID"]);
