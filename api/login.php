@@ -1,5 +1,7 @@
 <?php
 include_once('../app/app.php');
+Utils::logActivity(basename(__FILE__));
+
 $errors = array();
 $success = array();
 

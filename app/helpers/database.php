@@ -53,7 +53,7 @@ class Database {
     }
 
     private static function queryLog($q, $userId) {
-        if($userId == null) $sql = "INSERT INTO db_log(query) values('$q')";
+        if($userId == null) $sql = "INSERT INTO db_log(query, users_id) values('$q', '0')";
         else $sql = "INSERT INTO db_log(query, users_id) values('$q', '$userId')";
         self::rawQuery($sql);
         return self::rawQuery($q);
@@ -64,7 +64,9 @@ class Database {
     }
     
     public static function generalLog($action, $userId){
-        self::rawQuery("INSERT INTO general_log(action, users_id) VALUES('$action', '$userId')");
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $sql = "INSERT INTO general_log(action, ip, users_id) VALUES('$action', '$ip', '$userId')";
+        self::rawQuery($sql);
     }
 
 }

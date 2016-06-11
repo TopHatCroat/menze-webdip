@@ -5,6 +5,7 @@ define('USER', "1");
 
 //include_once('helpers/errorReporting.php');
 include_once('helpers/database.php');
+include_once('helpers/utils.php');
 include_once('models/user.php');
 include_once('models/city.php');
 include_once('models/Restaurant.php');

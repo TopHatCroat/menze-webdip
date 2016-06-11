@@ -1,6 +1,8 @@
 <?php
 include_once('../app/app.php');
-Database::generalLog(basename(__FILE__) . print_r($_POST,true), Session::getLoggedInUser()->getId());
+
+Utils::logActivity(basename(__FILE__));
+
 $errors = array();
 //restaurant.php [POST: new]
 if(isset($_POST['new']) && !empty($_POST['new'])) {
@@ -51,7 +53,6 @@ if(isset($_POST['new']) && !empty($_POST['new'])) {
     echo json_encode($errors);
     die();
 }
-
 
 
 $json = array();

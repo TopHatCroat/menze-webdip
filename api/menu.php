@@ -1,6 +1,6 @@
 <?php
 include_once('../app/app.php');
-header('Content-Type: application/json');
+Utils::logActivity(basename(__FILE__));
 $errors = array();
 $success = array();
 

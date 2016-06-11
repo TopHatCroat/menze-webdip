@@ -35,8 +35,7 @@ class Restaurant {
 
     static public function all(){
         $sql = "SELECT * FROM restaurants";
-        $user = Session::getLoggedInUser();
-        $result = Database::queryWithLog($sql, $user->getId());
+        $result = Database::query($sql);
         $restaurants = array();
         while ($row = $result->fetch_assoc()) {
             $restaurant = new Restaurant();
