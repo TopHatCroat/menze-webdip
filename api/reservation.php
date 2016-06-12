@@ -2,7 +2,6 @@
 include_once('../app/app.php');
 $json = array();
 $time = 0;
-Utils::logActivity(basename(__FILE__));
 
 
 var_dump($_POST);

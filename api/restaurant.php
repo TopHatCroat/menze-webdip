@@ -77,7 +77,9 @@ if(isset($_GET['id']) && !empty($_GET['id'])){
 
         $reservations = Reservation::findByRestaurant($editRestaurant->getId());
         foreach ($reservations as $r) {
-            $json["restaurant"]["reservations"][] = $r->toArray();
+            $data = $r->toArray();
+            $data["user"] = User::findById($r->getUser())->toArray();
+            $json["restaurant"]["reservations"][] = $data;
         }
     } else {
         $json["error"] = "Restoran ne postoji";

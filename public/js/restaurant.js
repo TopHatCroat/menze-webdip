@@ -36,6 +36,7 @@ var setEditRestaurantView = function (restaurant) {
     inHtml += "</table></form>";
     return inHtml;
 };
+
 var setRestaurantView = function (restaurant) {
     inHtml = '';
     if(restaurant.picture == "") inHtml += inHtml += "</tr><tr><td><img class='item-info' src='" + "public/img/profile/defaultRestaurant.jpg" + "'/>" + "</td><td>";
@@ -90,9 +91,10 @@ var setMenuCards = function (menus) {
 };
 
 var setEditReservationsView = function (reservation) {
-    var inHtml = "<div id='user-reservations'>";
+    var inHtml = "<div id='user-reservations'>Uređivanje rezervacija";
     $.each(reservation, function (i, item) {
         inHtml += "<form class='editReservation'><table class='user-reservation'>";
+        inHtml += "<tr><td colspan='5'><a href='users.php?id=" + reservation[i].user.id + "'>" + reservation[i].user.username + "</td></tr>";
         inHtml += "<tr><td><label>Reservirano u </label></td></td><td><label>" + reservation[i].reservedAt.substring(5, 17) + "</label></td>";
         if(reservation[i].accepted == "1") inHtml += "<td>" + "<input type='checkbox' name='accepted' value='1' checked>" + "Prihvaćeno" + "</td>";
         else inHtml += "<td>" + "<input type='checkbox' name='accepted' value='1'>" + "Prihvaćeno" + "</td>";
