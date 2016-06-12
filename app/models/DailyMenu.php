@@ -14,7 +14,7 @@ class DailyMenu {
         $sql = "";
         if($this->id == null){
             $this->createdAt = date('Y-m-d H:i:s');
-            $sql = "INSERT INTO daily_menus(restaurant_id, menus_id, type, amount, sold, created_at, updated_at) " .
+            $sql = "INSERT INTO daily_menus(restaurants_id, menus_id, type, amount, sold, created_at, updated_at) " .
                 "VALUES ('$this->restaurant', '$this->menu', '$this->type', '$this->amount', '$this->sold', '$this->createdAt', '$this->updatedAt')";
         } else{
             $this->updatedAt = date('Y-m-d H:i:s');
@@ -45,14 +45,26 @@ class DailyMenu {
         return $dailyMenus;
     }
 
+    static public function findByRestaurant($id){
+        $sql = "SELECT * FROM daily_menus WHERE restaurants_id='$id'";
+        $result = Database::query($sql);
+        $dailyMenus = array();
+        while ($row = $result->fetch_assoc()) {
+            $dailyMenu = new DailyMenu();
+            $dailyMenu->build($row);
+            array_push($dailyMenus, $dailyMenu);
+        }
+        return $dailyMenus;
+    }
+
     /**
      * Builds User data from key value array
      * @param $result array of User attributes
      */
     private function build($result){
         $this->id = $result['id'];
-        $this->restaurant = $result['restaurant_id'];
-        $this->restaurant = $result['menus_id'];
+        $this->restaurant = $result['restaurants_id'];
+        $this->menu = $result['menus_id'];
         $this->type = $result['type'];
         $this->amount = $result['amount'];
         $this->sold = $result['sold'];

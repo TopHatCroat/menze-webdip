@@ -19,3 +19,18 @@ function getCookie(cname) {
     }
     return "";
 }
+
+function setMenus(id, restaurant) {
+    $.ajax({
+        url: "api/menu.php",
+        data: {restaurant: restaurant},
+        dataType: "json",
+        success: function (data) {
+            var selectOptions = '';
+            $.each(data, function(key, value){
+                selectOptions += '<option value="' + key + '">' + value + '</option>'
+            });
+            $(id).html(selectOptions);
+        }
+    })
+}

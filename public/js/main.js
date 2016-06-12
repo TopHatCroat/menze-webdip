@@ -90,7 +90,7 @@ function index(event){
 }
 
 
-var setCities = function () {
+var setCities = function (id) {
     $.ajax({
         url: "api/city.php",
         dataType: "json",
@@ -99,7 +99,7 @@ var setCities = function () {
             $.each(data, function(key, value){
                 selectOptions += '<option value="' + key + '">' + value + '</option>'
             });
-            $("#city").html(selectOptions);
+            $(id).html(selectOptions);
         }
     })
 }

@@ -81,6 +81,16 @@ if(isset($_GET['id']) && !empty($_GET['id'])){
             $data["user"] = User::findById($r->getUser())->toArray();
             $json["restaurant"]["reservations"][] = $data;
         }
+
+        $dailymenus = DailyMenu::findByRestaurant($editRestaurant->getId());
+        foreach ($dailymenus as $dm){
+            $data = $dm->toArray();
+            $menu = Menu::findById($dm->getMenu());
+            $data["menu"] = $menu->toArray();
+            $json["restaurant"]["dailymenus"][] = $data;
+        }
+
+
     } else {
         $json["error"] = "Restoran ne postoji";
     }

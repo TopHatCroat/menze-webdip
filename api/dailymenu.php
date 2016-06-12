@@ -10,13 +10,13 @@ if(isset($_POST['newDailyMenu'])) {
         }
     } else $json['errors'][] = "Tip mora biti unesen";
 
-    if (isset($_POST['amount']) && !empty($_POST['amount'])) {
+    if (isset($_POST['amount'])) {
         if (preg_match('/((\%3D)|(=))[^\n]*((\%27)|(\') | (\-\-)|(\%3B)|(;))/i', $_POST['amount'])) {
             $json['errors'][] = "Količina sadrži nedozvoljene znakove";
         }
     } else $json['errors'][] = "Količina mora biti unesen";
 
-    if (isset($_POST['sold']) && !empty($_POST['sold'])) {
+    if (isset($_POST['sold'])) {
         if (preg_match('/((\%3D)|(=))[^\n]*((\%27)|(\') | (\-\-)|(\%3B)|(;))/i', $_POST['sold'])) {
             $json['errors'][] = "Prodano sadrži nedozvoljene znakove";
         }
@@ -37,7 +37,6 @@ if(isset($_POST['newDailyMenu'])) {
         if(Restaurant::findById($_POST['restaurant']) == null) $json['errors'][] = "Restoran ne postoji";
     } else $json['errors'][] = "Restoran mora biti unesen";
 
-    
 
     if (!isset($json['errors'])) {
         $editDailyMenu = new DailyMenu();
@@ -49,9 +48,9 @@ if(isset($_POST['newDailyMenu'])) {
         $editDailyMenu->setRestaurant($_POST["restaurant"]);
 
         $editDailyMenu->save();
-        $success["success"] = "Uspješno dodan novi menu";
+        $json["success"][] = "Uspješno dodan novi menu";
     }
-    echo json_encode($success);
+    echo json_encode($json);
 }
 
 if(isset($_POST['editDailyMenu'])) {
@@ -107,5 +106,19 @@ if(isset($_POST['editDailyMenu'])) {
         }
     }
     echo json_encode($success);
+}
+
+// dailymenu.php?restaurant=[restaurantId]
+if(isset($_GET['restaurant'])){
+    $dailymenus = DailyMenu::findByRestaurant($_GET['restaurant']);
+    $json = array();
+    foreach ($dailymenus as $dm){
+        $data = $dm->toArray();
+        $menu = Menu::findById($dm->getMenu());
+        $data["menu"] = $menu->toArray(); 
+        $json[] = $data;
+    }
+
+    echo json_encode($json);
 }
 ?>

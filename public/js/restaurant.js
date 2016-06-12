@@ -51,19 +51,21 @@ var setRestaurantView = function (restaurant) {
 };
 
 var setEditMenuView = function (menu, restaurantId) {
-    var inHtml = '';
+    var inHtml = "<div class='edit-menu'>";
+    inHtml += "Uredi meni";
     inHtml += "<form id='editMenu' method='post' name='editMenu' action='api/menu.php' enctype='multipart/form-data'><table class='fill-horizontal'>";
     inHtml += "<tr><td><label for='title'>Naslov:</label></td><td><input type='text' id='title' name='title' value='" + menu.name + "'></td></tr>"
     inHtml += "<tr><td><label for='description'>Opis:</label></td><td><input type='text' id='title' name='title' value='" + menu.description + "'></td></tr>";
     inHtml += "</tr><tr><td><label for='image'>Profilna slika:</label></td><td><input type='file' id='image' name='image'></td></tr>";
     inHtml += "<tr><td></td><td><input type='hidden' id='restaurant' name='restaurant' value='" + restaurantId + "'></td></tr>"
     inHtml += "<tr><td></td><td><input id='submit' class='button' type='submit' value='Izmjeni'></td></tr>";
-    inHtml += "</table></form>";
+    inHtml += "</table></form></div>";
     return inHtml;
 };
 
 var setNewMenuView = function (restaurant) {
-    var inHtml = '';
+    var inHtml = "<div class='new-menu'>";
+    inHtml += "Dodaj novi meni";
     inHtml += "<form class='item-info' id='newMenu' method='post' name='newMenu' action='api/menu.php' enctype='multipart/form-data'><table class='fill-horizontal'>";
     inHtml += "<tr><td><label for='title'>Naslov:</label></td><td><input type='text' id='title' name='title'></td></tr>"
     inHtml += "<tr><td><label for='description'>Opis:</label></td><td><input type='text' id='description' name='description'></td></tr>";
@@ -71,9 +73,22 @@ var setNewMenuView = function (restaurant) {
     inHtml += "<tr><td></td><td><input type='hidden' id='restaurant' name='restaurant' value='" + restaurant.id + "'></td></tr>"
     inHtml += "<tr><td></td><td><input type='hidden' id='newMenu' name='newMenu' value='" + restaurant.id + "'></td></tr>"
     inHtml += "<tr><td></td><td><input id='submitMenu' class='button' type='submit' value='Dodaj'></td></tr>";
-    inHtml += "</table></form>";
+    inHtml += "</table></form></div>";
+    return inHtml;
+};
 
-
+var setNewDailyMenuView = function (restaurant) {
+    var inHtml = "<div class='new-daily-menu'>";
+    inHtml += "Dodaj novi dnevni meni";
+    inHtml += "<form class='item-info' id='new-daily-menu' method='post' name='newDailyMenu' action='api/dailymenu.php' enctype='multipart/form-data'><table>";
+    inHtml += "<tr><td><label for='type'>Tip:</label></td><td><input type='text' id='type' name='type'></td></tr>"
+    inHtml += "<tr><td><label for='amount'>Količina:</label></td><td><input type='number' id='amount' name='amount' value='50' required='true'></td></tr>";
+    inHtml += "<tr><td><label for='sold'>Prodano:</label></td><td><input type='number' id='sold' name='sold' value='0' required='true'></td></tr>";
+    inHtml += "<tr><td><label for='menu'>Meni:</label></td><td><select id='menu' name='menu'></select>" + "</td></tr>";
+    inHtml += "<tr><td></td><td><input type='hidden' name='restaurant' value='" + restaurant.id + "'></td></tr>"
+    inHtml += "<tr><td></td><td><input type='hidden' name='newDailyMenu'></td></tr>"
+    inHtml += "<tr><td></td><td><input id='submitMenu' class='button' type='submit' value='Dodaj'></td></tr>";
+    inHtml += "</table></form></div>";
     return inHtml;
 };
 
@@ -90,10 +105,27 @@ var setMenuCards = function (menus) {
     return inHtml += "</div>";
 };
 
+var setDailyMenuCards = function (dailyMenus) {
+    inHtml = "<div class='clearfix'></div><div class='daily-menus'>"
+    $.each(dailyMenus, function(i, item){
+        var diff = dailyMenus[i].amount - dailyMenus[i].sold;
+        if(diff > 10) inHtml += "<div class='card card-shadowed'>";
+        else inHtml += "<div class='card card-shadowed daily-menu-critical'>";
+        if(dailyMenus[i].menu.image == "") inHtml += "<img src='" + "public/img/profile/defaultRestaurant.jpg" + "'/>";
+        else inHtml += "<img src='" + dailyMenus[i].menu.image.substring(3) + "'/>";
+        inHtml += "<p class='card-title'>" + dailyMenus[i].menu.title + "</p>";
+        inHtml += "<p class='card-body'>" + dailyMenus[i].type + "</p>";
+        inHtml += "<p class='card-body'>" + dailyMenus[i].menu.description + "</p>";
+        inHtml += "</div></a>";
+    });
+    return inHtml += "</div>";
+};
+
+
 var setEditReservationsView = function (reservation) {
     var inHtml = "<div id='user-reservations'>Uređivanje rezervacija";
     $.each(reservation, function (i, item) {
-        inHtml += "<form class='editReservation'><table class='user-reservation'>";
+        inHtml += "<form class='edit-reservation'><table class='user-reservation'>";
         inHtml += "<tr><td colspan='5'><a href='users.php?id=" + reservation[i].user.id + "'>" + reservation[i].user.username + "</td></tr>";
         inHtml += "<tr><td><label>Reservirano u </label></td></td><td><label>" + reservation[i].reservedAt.substring(5, 17) + "</label></td>";
         if(reservation[i].accepted == "1") inHtml += "<td>" + "<input type='checkbox' name='accepted' value='1' checked>" + "Prihvaćeno" + "</td>";
@@ -111,6 +143,7 @@ var setEditReservationsView = function (reservation) {
 
 var setReservationView = function (restaurant) {
     inHtml = "<div class='reservation'>"
+    inHtml += "Napravi novu rezervaciju";
     inHtml += "<form id='newReservation' method='post' name='newReservation' action='api/reservation.php'><table class='fill-horizontal'>";
     inHtml += "<tr><td><label for='dateTime'>Vrijeme i datum:</label></td><td><input type='text' value='' name='dateTime' id='newReservationPicker'/></td></tr>"
     inHtml += "<tr><td></td><td><input type='hidden' id='restaurant' name='restaurant' value='" + restaurant.id + "'></td></tr>"
@@ -121,7 +154,7 @@ var setReservationView = function (restaurant) {
     return inHtml;
 };
 
-var completeSetup = function (e) {
+var completeSetup = function (e, restaurnat) {
     $("#newMenu").submit(function() {
         $.ajax({
             type: "POST",
@@ -195,9 +228,11 @@ var completeSetup = function (e) {
 
         e.preventDefault();
     });
+
+    setMenus("#menu", restaurnat);
 };
 
-var loadRestaurant = function (restaurantId) {
+var loadRestaurant = function (e, restaurantId) {
     $.ajax({
         url: 'api/restaurant.php',
         type: 'GET',
@@ -211,12 +246,14 @@ var loadRestaurant = function (restaurantId) {
                 $("#restaurantDetails").append(setEditRestaurantView(json["restaurant"]));
                 $("#restaurantDetails").append(setNewMenuView(json["restaurant"]));
                 $("#restaurantDetails").append(setEditReservationsView(json["restaurant"]["reservations"]));
+                $("#restaurantDetails").append(setNewDailyMenuView(json["restaurant"]));
+                $("#restaurantDetails").append(setMenuCards(json["restaurant"]["menus"]));
             } else {
                 $("#restaurantDetails").append(setRestaurantView(json["restaurant"]));
             }
             $("#restaurantDetails").append(setReservationView(json["restaurant"]));
 
-            $("#restaurantDetails").append(setMenuCards(json["restaurant"]["menus"]));
+            $("#restaurantDetails").append(setDailyMenuCards(json["restaurant"]["dailymenus"]));
 
             $.datetimepicker.setLocale('hr');
             $('#newReservationPicker').datetimepicker({
@@ -224,7 +261,7 @@ var loadRestaurant = function (restaurantId) {
                 lang:'hr',
             });
 
-            completeSetup();
+            completeSetup(e, restaurantId);
 
         }
     });    
@@ -235,11 +272,9 @@ $('document').ready(function(e){
     var params = getParams();
 
     if(params["id"] != undefined){
-        loadRestaurant(params["id"][0]);
+        loadRestaurant(e, params["id"][0]);
     } else {
         loadRestaurants();
     }
-
-    completeSetup(e);
 
 })

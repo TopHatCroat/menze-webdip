@@ -42,4 +42,17 @@ if(isset($_POST['newMenu'])) {
     if (count($errors) == 0) echo json_encode($success);
     else echo json_encode($errors);
 }
+
+
+// this is for dropdown menu
+// menu.php?restaurantId=[restaurantId]
+if(isset($_GET['restaurant'])){
+    $menus = Menu::findByRestaurant($_GET['restaurant']);
+    $json = array();
+    foreach ($menus as $m){
+        $json[$m->getId()] = $m->getTitle();
+    }
+
+    echo json_encode($json);
+}
 ?>
