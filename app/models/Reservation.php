@@ -23,7 +23,6 @@ class Reservation {
             $sql = "UPDATE reservations SET reserved_at='$this->reservedAt', accepted='$this->accepted', accepted_message='$this->acceptedMessage', completed='$this->completed', completed_message='$this->completedMessage', restaurants_id='$this->restaurant', users_id='$this->user', created_at='$this->createdAt',updated_at='$this->updatedAt' WHERE id='$this->id'";
         }
         $result = Database::query($sql);
-        var_dump($result);
         return $result;
     }
 

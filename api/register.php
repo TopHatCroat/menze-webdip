@@ -56,7 +56,6 @@ if(count($json) == 0){
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) {
             $newUser->setImage($imagePath);
         } else $json['errors'][] = "Neuspjelo spremanje slike";
-
     }
 
 

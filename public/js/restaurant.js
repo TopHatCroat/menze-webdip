@@ -29,12 +29,14 @@ var setEditRestaurantView = function (restaurant) {
     inHtml += "<form class='item-info' id='editRestaurant' method='post' name='editRestaurant' action='api/restaurant.php' enctype='multipart/form-data'><table class='fill-horizontal'>";
     inHtml += "<tr><td><label for='name'>Ime:</label></td><td><input type='text' id='name' name='name' value='" + restaurant.name + "'></td></tr>"
     inHtml += "<tr><td><label for='email'>Email:</label></td><td><label>" + restaurant.email + "</label></td></tr>";
-    inHtml += "<tr><td><label for='city'>Grad:</label></td><td><select id='city' name='city'></select>" + restaurant.city + "</td></tr>";
+    inHtml += "<tr><td><label for='city'>Grad:</label></td><td><select id='city' name='city'></select></td></tr>";
     inHtml += "<tr><td><label for='address'>Adresa:</label></td><td><input type='text' id='address' name='address' value='" + restaurant.address + "'></td></tr>"
     inHtml += "</tr><tr><td><label for='image'>Profilna slika:</label></td><td><input type='file' id='image' name='image'></td></tr>";
     inHtml += "<tr><td></td><td><input id='submit' class='button' type='submit' value='Izmjeni'></td></tr>";
     inHtml += "</table></form>";
-    return inHtml;
+    $("#content").prepend(inHtml);
+    setCities("#city", restaurant.city);
+
 };
 
 var setRestaurantView = function (restaurant) {
@@ -108,8 +110,9 @@ var setMenuCards = function (menus) {
 var setDailyMenuCards = function (dailyMenus) {
     inHtml = "<div class='clearfix'></div><div class='daily-menus'>"
     $.each(dailyMenus, function(i, item){
+        inHtml += "<a href='picture.php?dailyMenu=" + dailyMenus[i].id + "'>";
         var diff = dailyMenus[i].amount - dailyMenus[i].sold;
-        if(diff > 10) inHtml += "<a href='picture.php?dailyMenu=" + dailyMenus[i].id + "'><div class='card card-shadowed'>";
+        if(diff > 10) inHtml += "<div class='card card-shadowed'>";
         else inHtml += "<div class='card card-shadowed daily-menu-critical'>";
         if(dailyMenus[i].menu.image == "") inHtml += "<img src='" + "public/img/profile/defaultRestaurant.jpg" + "'/>";
         else inHtml += "<img src='" + dailyMenus[i].menu.image.substring(3) + "'/>";
@@ -262,6 +265,7 @@ var loadRestaurant = function (e, restaurantId) {
             });
 
             completeSetup(e, restaurantId);
+
 
         }
     });    

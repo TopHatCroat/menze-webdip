@@ -7,14 +7,14 @@ function loadUser(userId) {
         success: function (json) {
             var inHtml = "<div class='user card card-detail'>"
             if(json["admin"] != undefined){
-                if(json["admin"] != "3") inHtml += setEditUserView(json["user"]);
-                else inHtml += setAdminEditUserView(json["user"]);
+                if(json["admin"].role != "3") setEditUserView(json["user"]);
+                else setAdminEditUserView(json["user"]);
             } else {
                 inHtml += setUserView(json["user"]);
             }
             inHtml += loadReservations(json["reservations"]);
             inHtml += "</div>"
-            $("#content").html(inHtml);
+            $("#content").append(inHtml);
         }
     });
 }
@@ -56,12 +56,14 @@ var setEditUserView = function (user) {
     inHtml += "<tr><td><label for='email'>Email:</label></td><td><label>" + user.email + "</label></td></tr>";
     inHtml += "<tr><td><label for='name'>Ime:</label></td><td><input type='text' id='name' name='name' value='" + user.name + "'></td></tr>"
     inHtml += "<tr><td><label for='surname'>Prezime:</label></td><td><input type='text' id='surname' name='surname' value='" + user.surname + "'></td></tr>"
-    inHtml += "<tr><td><label for='city'>Grad:</label></td><td><select id='city' name='city'></select>" + user.city + "</td></tr>";
+    inHtml += "<tr><td><label for='city'>Grad:</label></td><td><select id='city' name='city'></select>" + "</td></tr>";
     inHtml += "<tr><td><label for='address'>Adresa:</label></td><td><input type='text' id='address' name='address' value='" + user.address + "'></td></tr>"
     inHtml += "</tr><tr><td><label for='image'>Profilna slika:</label></td><td><input type='file' id='image' name='image'></td></tr>";
     inHtml += "<tr><td></td><td><input id='submit' class='button' type='submit' value='Izmjeni'></td></tr>";
     inHtml += "</table></form>";
-    return inHtml;
+    $("#content").prepend(inHtml);
+
+    setCities("#city", user.city);
 
 };
 
@@ -74,12 +76,17 @@ var setAdminEditUserView = function (user) {
     inHtml += "<tr><td><label for='email'>Email:</label></td><td><label>" + user.email + "</label></td></tr>";
     inHtml += "<tr><td><label for='name'>Ime:</label></td><td><input type='text' id='name' name='name' value='" + user.name + "'></td></tr>"
     inHtml += "<tr><td><label for='surname'>Prezime:</label></td><td><input type='text' id='surname' name='surname' value='" + user.surname + "'></td></tr>"
-    inHtml += "<tr><td><label for='city'>Grad:</label></td><td><select id='city' name='city'></select>" + user.city + "</td></tr>";
+    inHtml += "<tr><td><label for='city'>Grad:</label></td><td><select id='city' name='city'></select>" +  "</td></tr>";
     inHtml += "<tr><td><label for='address'>Adresa:</label></td><td><input type='text' id='address' name='address' value='" + user.address + "'></td></tr>"
+    if(user.active == "1") inHtml += "<td>" + "<input type='checkbox' name='active' value='1' checked>" + "Aktivan" + "</td>";
+    else inHtml += "<td>" + "<input type='checkbox' name='active' value='1'>" + "Aktivan" + "</td>";
     inHtml += "</tr><tr><td><label for='image'>Profilna slika:</label></td><td><input type='file' id='image' name='image'></td></tr>";
+    inHtml += "<tr><td colspan='5'><input type='hidden' id='editUser' name='editUser' value='" + user.id + "'></td></tr>"
     inHtml += "<tr><td></td><td><input id='submit' class='button' type='submit' value='Izmjeni'></td></tr>";
     inHtml += "</table></form>";
-    return inHtml;
+    $("#content").prepend(inHtml);
+
+    setCities("#city", user.city);
 
 };
 
@@ -110,14 +117,48 @@ var loadReservations = function (reservation) {
     return inHtml;
 }
 
+var completeSetupUser = function (e) {
+    $(document).on("submit", "#editUser", function(event) {
+        event.preventDefault();
+
+        var url=$(this).attr("action");
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: "json",
+            data: $(this).serialize(),
+            success: function (data, status) {
+                if (data['success'] == undefined) {
+                    showMessage("error", data);
+                } else {
+                    showMessage("success", data);
+                }
+            }
+        });
+
+    });
+    //
+    // $("#editUser").submit(function() {
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "api/user.php",
+    //         data: $(this).serialize(),
+    //         success: function (data) {
+    //             var parsed = JSON.parse(data);
+    //             if (parsed['success'] == undefined) {
+    //                 showMessage("error", parsed);
+    //             } else {
+    //                 showMessage("success", parsed);
+    //             }
+    //         }
+    //     });
+    //
+    //     e.preventDefault();
+    // });
+
+};
 $('document').ready(function(e){
     clearContent();
-    // loadUsers();
-    //
-    // $(".card").on("click", function () {
-    //     var params = getParams();
-    //     loadUser(params["id"][0]);
-    // })
 
     var params = getParams();
 
@@ -126,4 +167,6 @@ $('document').ready(function(e){
     } else {
         loadUsers();
     }
+
+    completeSetupUser(e);
 })

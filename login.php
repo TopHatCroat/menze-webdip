@@ -1,4 +1,13 @@
 <? include('public/template/header.php') ?>
+<?php
+if(empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == "off"){
+    $redirect = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    header('HTTP/1.1 301 Moved Permanently');
+    header('Location: ' . $redirect);
+    exit();
+}
+?>
+
 <script type="text/javascript" src="public/js/login.js"></script>
 <div id="content">
 

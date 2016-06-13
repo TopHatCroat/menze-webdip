@@ -4,7 +4,6 @@ $json = array();
 $time = 0;
 
 
-var_dump($_POST);
 // reservation.php/
 if(isset($_POST['newReservation'])) {
     if (isset($_POST['dateTime']) && !empty($_POST['dateTime'])) {
@@ -46,9 +45,22 @@ if(isset($_POST['editReservation'])) {
 
     $editReservation = Reservation::findById($_POST['editReservation']);
     if($editReservation != null) {
-        if(isset($_POST["accepted"])) $editReservation->setAccepted(1);
+        if(isset($_POST["accepted"])){
+            $user = User::findById($editReservation->getUser());
+            $restaurant = Restaurant::findById($editReservation->getRestaurant());
+
+            $subject = "Vaša rezervacija je odobrena";
+            $message = "Vaša rezervacija u restoranu " . $restaurant->getName() . " u " . $editReservation->getReservedAt() . " je odobrena.";
+
+            $headers = "MIME-Version: 1.0" . "\r\n"
+                . "Content-type:text/html;charset=UTF-8" . "\r\n"
+                . 'From: <antmartin2@foi.com>' . "\r\n";
+
+            mail($user->getEmail(), $subject, $message, $headers);
+            $editReservation->setAccepted(1);
+        }
         if(isset($_POST["completed"])) $editReservation->setCompleted(1);
-        if(!empty($_POST["acceptedMessage"])) $editReservation->setAcceptedMessage($_POST["acceptedMessage"]);
+        if(!empty($_POST["acceptedMessage"])){} $editReservation->setAcceptedMessage($_POST["acceptedMessage"]);
         if(!empty($_POST["completedMessage"])) $editReservation->setCompletedMessage($_POST["completedMessage"]);
 
         $editReservation->save();

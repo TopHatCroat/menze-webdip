@@ -59,7 +59,7 @@ var setNewPictureView = function (dailyMenu) {
     return inHtml;
 };
 
-var completeSetupPicture = function (e){
+var completeSetupPicture = function (){
     $("body").on('submit', '#newPictureForm', function(event) {
         event.preventDefault();
 

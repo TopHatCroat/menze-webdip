@@ -7,7 +7,7 @@ class Settings{
     public static function getTime(){
         $sql = "SELECT * FROM settings WHERE setting='time'";
         $result = mysqli_fetch_array(Database::query($sql));
-        $result = intval($result["value"]) * 60 * 60 + time();
+        $result = (intval($result["value"]) * 60 * 60 )+ time();
         return $result;
     }
 

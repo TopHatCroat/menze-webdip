@@ -28,10 +28,14 @@ if(isset($_GET['activation']) && !empty($_GET['activation'])){
     $user = User::findByActivationToken($_GET['activation']);
     $messages = array();
     if($user != null){
-        $user->setActive(1);
-        $user->setActivationToken("-1");
-        $user->save();
-        $messages["success"] = "Uspješno ste aktivirali svoj račun";
+        if($user->getCreatedAt() + 12*60*60 > Settings::getTime()){
+            $user->setActive(1);
+            $user->setActivationToken("-1");
+            $user->save();
+            $messages["success"] = "Uspješno ste aktivirali svoj račun";
+        } else{
+            $messages["error"] = "Aktivacijski link je istekao";
+        }
     } else{
         $messages["error"] = "Korisnik nije pronađen ili je aktivacijski link neispravan";
     }

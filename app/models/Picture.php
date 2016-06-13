@@ -33,9 +33,9 @@ class Picture {
     }
 
     static public function findByUser($id, $skip){
-        if($skip == null) $sql = "SELECT * FROM pictures WHERE users_id='$id' LIMIT 2";
+        if($skip == null) $sql = "SELECT * FROM pictures WHERE users_id='$id' LIMIT 6";
         else {
-            $limit = intval($skip) + 2;
+            $limit = intval($skip) + 6;
             $sql = "SELECT * FROM pictures WHERE users_id='$id' LIMIT $skip, $limit";
         }
         $result = Database::query($sql);

@@ -188,6 +188,7 @@ class User {
         $array["image"] = $this->image;
         $array["city"] = $this->city;
         $array["address"] = $this->address;
+        $array["active"] = $this->active;
         return $array;
     }
 

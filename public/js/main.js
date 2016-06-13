@@ -27,7 +27,7 @@ function setup() {
         success: function(data)
         {
             if(data == ""){
-                $("#user-info").html("<p><a href='login.php'>Prijavi se</a></p>");
+                $("#user-info").html("<p><a href='https://barka.foi.hr/WebDiP/2015_projekti/WebDiP2015x051/login.php'>Prijavi se</a></p>");
             } else {
                 data = JSON.parse(data);
                 $("#user-info").html("<p>Dobrodošao " + data["username"] + "| <a id='logoutLink' href='#'>Odjavi se</a></p>");
@@ -90,14 +90,15 @@ function index(event){
 }
 
 
-var setCities = function (id) {
+var setCities = function (id, selected) {
     $.ajax({
         url: "api/city.php",
         dataType: "json",
         success: function (data) {
             var selectOptions = '';
             $.each(data, function(key, value){
-                selectOptions += '<option value="' + key + '">' + value + '</option>'
+                if(selected == key) selectOptions += '<option value="' + key + '" selected="selected">' + value + '</option>'
+                else selectOptions += '<option value="' + key + '">' + value + '</option>'
             });
             $(id).html(selectOptions);
         }

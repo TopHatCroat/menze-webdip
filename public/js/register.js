@@ -1,5 +1,5 @@
 $(document).ready(function(){   
-    setCities("#city");
+    setCities("#city", null);
 
     $("#register").submit(function(e) {
         $.ajax({
