@@ -109,7 +109,7 @@ var setDailyMenuCards = function (dailyMenus) {
     inHtml = "<div class='clearfix'></div><div class='daily-menus'>"
     $.each(dailyMenus, function(i, item){
         var diff = dailyMenus[i].amount - dailyMenus[i].sold;
-        if(diff > 10) inHtml += "<div class='card card-shadowed'>";
+        if(diff > 10) inHtml += "<a href='picture.php?dailyMenu=" + dailyMenus[i].id + "'><div class='card card-shadowed'>";
         else inHtml += "<div class='card card-shadowed daily-menu-critical'>";
         if(dailyMenus[i].menu.image == "") inHtml += "<img src='" + "public/img/profile/defaultRestaurant.jpg" + "'/>";
         else inHtml += "<img src='" + dailyMenus[i].menu.image.substring(3) + "'/>";
