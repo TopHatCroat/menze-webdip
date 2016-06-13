@@ -216,21 +216,33 @@ header a{
     color: #FFF;
 }
 
+#burger {
+	cursor: pointer;
+	margin-top: 10px;
+	display: none;
+}
+
 nav {
     text-align: center;
-
 }
 nav ul {
-    height: 19px;
-    list-style:none; }
+	margin: 10px 0 0 0;
+	padding: 0;
+	width: 100%;
+    list-style:none; 
+}
 
 nav ul li {
-    display:inline;
+    display: inline-block;
+	padding: 20px;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+    background: #66b3ff;
+	margin-bottom: 5px;
 }
 
 nav ul li a {
-    padding: 20px;
-    background: #66b3ff;
     text-decoration: none;
     font-family: 'Oxygen', sans-serif;
     font-weight: 700;
@@ -268,4 +280,18 @@ footer {
 footer p{
     color: #FFFFFF;
 
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.clearfix {
+  *zoom: 1;
 }

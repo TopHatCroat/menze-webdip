@@ -7,22 +7,15 @@
         width: 100%;
     }
 
-    header nav li {
-        margin: 0;
-        width: 100%;
-        background: #efefef;
-        display: block;
-        margin-bottom: 3px;
-    }
-
-    header nav ul{
-        width: 100%;
-    }
-    header nav a {
-        width: 100%;
-
-        display: block;
-        padding: 10px;
-        text-align: center;
-    }
+	nav ul li {
+		display: block;
+	}
+	
+	#burger {
+		display: block;
+	}
+	
+	#navigationLinks {
+		display: none;
+	}
 }

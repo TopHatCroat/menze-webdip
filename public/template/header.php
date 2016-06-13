@@ -7,10 +7,6 @@
     <link href="public/css/mobile.css" type="text/css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Oxygen:400,300,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="public/js/main.js"></script>
-    <script type="text/javascript" src="public/js/helpers.js"></script>
 </head>
 <body>
 <div id="wrapper">
@@ -21,7 +17,8 @@
             </div>
         </div>
         <nav>
-            <ul id="#navigationLinks">
+			<div id="burger">BURGER</div>
+            <ul id="navigationLinks">
                 <li id="indexLink"><a href="index.php" title="Početna">Home</a></li>
                 <li id="restaurantsLink"><a href="restaurant.php" title="Menze">Menze</a></li>
                 <li id="usersLink"><a href="users.php" title="Korisnici">Korisnici</a></li>
@@ -29,7 +26,7 @@
                 <li id="picturesLink"><a href="picture.php" title="Slike">Slike</a></li>
                 <li id="contactLink"><a href="dokumentacija.php" title="Dokumentacija">Dokumentacija</a></li>
                 <li id="adminLink"><a href="admin.php" title="Admin">Admin</a></li>
-
             </ul>
         </nav>
+		<div class="clearfix"></div>
     </header>
