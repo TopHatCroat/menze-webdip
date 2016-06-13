@@ -8,6 +8,11 @@
         ?>
 
         <div id="content">
+            <?php
+            $buttons = "<a href='admin2.php' ><button class='admin-controls'>Statistika ></button></a>";
+
+            echo $buttons;
+            ?>
             <div class="elavated">
                 <table id="adminTable">
                     <tbody>

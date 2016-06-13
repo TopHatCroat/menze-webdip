@@ -3,6 +3,8 @@ define('ADMIN', "3");
 define('MOD', "2");
 define('USER', "1");
 
+$GLOBALS['userId'] = null;
+
 //include_once('helpers/errorReporting.php');
 include_once('helpers/database.php');
 include_once('helpers/utils.php');

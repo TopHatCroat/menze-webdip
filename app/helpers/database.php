@@ -32,7 +32,7 @@ class Database {
     }
 
     public static function query($q) {
-        return self::queryLog($q, null);
+        return self::queryLog($q, $GLOBALS['userId']);
     }
 
     public static function queryWithLog($q, $userId) {

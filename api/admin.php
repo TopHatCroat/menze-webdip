@@ -2,7 +2,6 @@
 include_once('../app/app.php');
 Utils::logActivity(basename(__FILE__));
 
-
 $messages = array();
 
 if(isset($_GET['session']) && !empty($_GET['session'])){
@@ -19,7 +18,6 @@ if(isset($_GET['session']) && !empty($_GET['session'])){
 if(isset($_GET['time']) && !empty($_GET['time'])){
     Settings::setTime($_GET['time']);
     $messages["time"] = Settings::getTime();
-    
 }
 
 

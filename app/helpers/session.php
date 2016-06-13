@@ -50,6 +50,7 @@ class Session {
         }
 
         Database::logInLog("login", $user->getId());
+        $GLOBALS['userId'] = $user->getId();
         self::createSession();
         $_SESSION[self::SESSION_NAME] = session_id();
         $user->setSessionToken($_SESSION[self::SESSION_NAME]);
@@ -67,6 +68,7 @@ class Session {
             $user = User::findBySessionToken($sessionToken);
 
             if ($user != null) {
+                $GLOBALS['userId'] = $user->getId();
                 return $user;
             }
         }
@@ -75,6 +77,8 @@ class Session {
         if($cookie != null){
             $user = User::findByRememberToken($cookie);
             if($user != null){
+                $GLOBALS['userId'] = $user->getId();
+                self::loginUser($user);
                 return $user;
             }
         }
@@ -90,6 +94,9 @@ class Session {
             return false;
         }
         self::createSession();
+
+        $GLOBALS['userId'] = null;
+
         if (session_id() != "") {
             Database::logInLog("logout", $user->getId());
             session_unset();

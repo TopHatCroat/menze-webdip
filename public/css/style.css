@@ -110,6 +110,11 @@ a {
 .fill-horizontal{
 }
 
+.documentation{
+    text-align: left;
+    padding: 10px;
+}
+
 .clearfix {
     width: 100%;
     clear: both;
@@ -133,6 +138,20 @@ a {
     background-color: #FFBABA;
 }
 
+
+#dbLog, #logInLog, #generalLog{
+    margin: 50px 0;
+    border: 2px darkgray solid;
+}
+
+caption{
+    font-weight: 700;
+}
+
+.admin-controls {
+    margin: 30px auto;
+    text-align: center;
+}
 
 /*a:visited {*/
     /*font-weight: normal;*/

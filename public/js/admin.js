@@ -21,7 +21,7 @@ var showAdminPanel = function () {
         $.ajax({
             type: "GET",
             url: "api/admin.php",
-            data: {time: $("#timeInput").val, session: getCookie("PHPSESSID")},
+            data: {time: $("#timeInput").val(), session: getCookie("PHPSESSID")},
             success: function (data) {
                 location.reload();
             }
@@ -81,6 +81,10 @@ $(document).ready(function (e) {
         e.preventDefault();
     });
 
-    e.preventDefault();
+
+    $("#generalLog").dataTable();
+    $("#logInLog").dataTable();
+    $("#dbLog").dataTable();
+
 
 })
